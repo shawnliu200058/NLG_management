@@ -1,5 +1,5 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <el-checkbox label="123"></el-checkbox>
   </div>
 </template>
