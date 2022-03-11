@@ -66,11 +66,11 @@ interface DataType {
 //     console.log(res)
 //   })
 
-import { accountLoginReq } from '@/service/api/login/login'
+// import { accountLoginReq } from '@/service/api/login/login'
 
-accountLoginReq({
-  name: 'liushanwen',
-  password: '123456'
-}).then((res) => {
-  console.log(res)
-})
+// accountLoginReq({
+//   name: 'liushanwen',
+//   password: '123456'
+// }).then((res) => {
+//   console.log(res)
+// })

@@ -19,6 +19,7 @@ import { useRouter } from 'vue-router'
 import { ElForm } from 'element-plus'
 
 import localCache from '@/utils/cache'
+import rules from '../config/rule'
 
 export default defineComponent({
   setup() {
@@ -32,20 +33,20 @@ export default defineComponent({
     const router = useRouter()
 
     const loginAction = (isKeepPassword: boolean) => {
-      // formRef.value?.validate((valid) => {
-      //   if (isKeepPassword) {
-      //     localCache.setCache('name', account.name)
-      //     localCache.setCache('password', account.password)
-      //   } else {
-      //     localCache.deleteCache('name')
-      //   }
-      // })
-      router.push({
-        name: 'Main'
+      formRef.value?.validate((valid) => {
+        if (valid) {
+          if (isKeepPassword) {
+            localCache.setCache('name', account.name)
+            localCache.setCache('password', account.password)
+          } else {
+            localCache.deleteCache('name')
+          }
+          router.push({
+            name: 'Main'
+          })
+        }
       })
     }
-
-    const rules = ref()
 
     return {
       account,
