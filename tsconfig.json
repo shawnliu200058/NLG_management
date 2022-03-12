@@ -43,7 +43,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx", "src/utils/pwd-encryption.ts", "src/utils/pwd-handler.js"
   ],
   "exclude": [
     "node_modules"

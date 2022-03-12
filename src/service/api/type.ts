@@ -1,4 +1,5 @@
 export default interface IDataType<T = any> {
-  code: number
+  returnCode: number
   data: T
+  message?: string
 }

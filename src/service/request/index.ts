@@ -58,6 +58,7 @@ class HYRequest {
         // console.log('所有的实例都有的拦截器：响应成功拦截')
         // 将 loading 移除
         this.loading?.close()
+        // console.log(res)
         const { data } = res
         // if (data.returnCode === '-1001') console.log('请求失败')
         // else return data

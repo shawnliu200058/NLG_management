@@ -1,7 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import { createPinia } from 'pinia'
 // import store from './store'
+import { setupStore } from './store'
 
 import 'element-plus/dist/index.css'
 import 'normalize.css'
@@ -14,9 +16,12 @@ import hyRequest from './service'
 
 const app = createApp(App)
 // app.use(store).use(router).mount('#app')
-app.use(router).mount('#app')
 // 注册element-plus/其他
-globalRegister(app)
+app.use(globalRegister)
+app.use(createPinia())
+setupStore()
+app.use(router)
+app.mount('#app')
 
 // 注册全局组件
 // Object.keys(Icons).forEach(key => {

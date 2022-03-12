@@ -20,6 +20,7 @@ import { ElForm } from 'element-plus'
 
 import localCache from '@/utils/cache'
 import rules from '../config/rule'
+import { useLoginStore } from '@/store/login/login'
 
 export default defineComponent({
   setup() {
@@ -31,19 +32,19 @@ export default defineComponent({
 
     const formRef = ref<InstanceType<typeof ElForm>>()
     const router = useRouter()
+    const store = useLoginStore()
 
     const loginAction = (isKeepPassword: boolean) => {
       formRef.value?.validate((valid) => {
         if (valid) {
-          if (isKeepPassword) {
-            localCache.setCache('name', account.name)
-            localCache.setCache('password', account.password)
-          } else {
-            localCache.deleteCache('name')
-          }
-          router.push({
-            name: 'Main'
-          })
+          // if (isKeepPassword) {
+          //   localCache.setCache('name', account.name)
+          //   localCache.setCache('password', account.password)
+          // } else {
+          //   localCache.deleteCache('password')
+          // }
+          // // 解构后再包在一个对象，保证响应式
+          // store.accountLoginAction({ ...account })
         }
       })
     }

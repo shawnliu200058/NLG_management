@@ -4,12 +4,9 @@ interface IAccount {
 }
 
 interface ILoginResult {
-  id: number,
-  name: string,
+  id: number
+  name: string
   token: string
 }
 
-export {
-  IAccount,
-  ILoginResult
-}
+export { IAccount, ILoginResult }

@@ -2,12 +2,16 @@
 import HYRequest from './request'
 import { BASE_URL, TIME_OUT } from './request/config'
 
+import localCache from '@/utils/cache'
+
 const hyRequest = new HYRequest({
   baseURL: BASE_URL,
   timeout: TIME_OUT,
   interceptors: {
-    requestInterceptor: (config) => {
+    requestInterceptor: (config: any) => {
       // console.log('请求成功的拦截')
+      const token = localCache.getCache('token')
+      if (token) config.headers.Authorization = `Bearer ${token}`
       return config
     },
     requestInterceptorCatch: (err) => {
@@ -19,7 +23,7 @@ const hyRequest = new HYRequest({
       return res
     },
     responseInterceptorCatch: (err) => {
-      // console.log('响应失败的拦截')
+      console.log('响应失败的拦截')
       return err
     }
   }
