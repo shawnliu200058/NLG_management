@@ -54,7 +54,7 @@ import router from '@/router/index'
 export default defineComponent({
   setup() {
     const returnHome = () => {
-      router.push('/main')
+      router.push('/dashboard')
     }
 
     return { returnHome }

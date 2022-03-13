@@ -2,13 +2,14 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 import Login from '../views/login/Login.vue'
 import Main from '../views/main/Main.vue'
+import Layout from '@/layout/Layout.vue'
+import DashBoard from '@/views/main/dashboard/dashboard.vue'
+import GoodManagementRoute from './modules/good-management'
+import UserManagementRoute from './modules/user-management'
+
 import localCache from '@/utils/cache'
 
 const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    redirect: '/login'
-  },
   {
     path: '/login',
     name: 'Login',
@@ -24,10 +25,22 @@ const routes: Array<RouteRecordRaw> = [
       import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/main',
-    name: 'Main',
-    component: Main
+    path: '/',
+    component: Layout,
+    redirect: '/dashboard',
+    children: [
+      {
+        path: 'dashboard',
+        name: 'DashBoard',
+        component: DashBoard,
+        meta: {
+          title: '首页'
+        }
+      }
+    ]
   },
+  GoodManagementRoute,
+  UserManagementRoute,
   {
     path: '/:pathMatch(.*)*',
     name: 'notFound',

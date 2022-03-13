@@ -34,7 +34,7 @@ export const useLoginStore = defineStore('login', {
         localCache.setToken(token)
         localCache.setCache('adminInfo', { id, name })
         // 跳到首页
-        router.push('/main')
+        router.push('/dashboard')
       } else {
         ElMessage.error('用户名或密码错误')
       }

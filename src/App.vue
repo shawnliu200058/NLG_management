@@ -1,18 +1,24 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
-  </div>
+  <el-config-provider :locale="locale">
+    <div id="app">
+      <router-view></router-view>
+    </div>
+  </el-config-provider>
 </template>
 
 <script lang='ts'>
 import { defineComponent } from 'vue'
-import { ref } from 'vue'
+import { ElConfigProvider } from 'element-plus'
+import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 
 export default defineComponent({
+  components: {
+    ElConfigProvider
+  },
   setup() {
-    const count = ref(0)
+    let locale = zhCn
     return {
-      count
+      locale
     }
   }
 })

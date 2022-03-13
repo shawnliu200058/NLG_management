@@ -6,20 +6,21 @@
     </div>
 
     <el-menu
-      default-active="1"
+      :default-active="$route.path"
       class="el-menu-vertical-demo"
       :collapse="collapse"
       background-color="#0c2135"
       text-color="#b7bdc3"
-      unique-opened
+      router
       :collapse-transition="false"
       @open="handleOpen"
       @close="handleClose"
     >
-      <el-menu-item index="1">
+      <el-menu-item index="/dashboard">
         <el-icon><house /></el-icon>
         <span>首页</span>
       </el-menu-item>
+
       <el-sub-menu index="2">
         <template #title>
           <el-icon><notebook /></el-icon>
@@ -29,21 +30,28 @@
         <el-menu-item index="2-2">轮播图管理</el-menu-item>
       </el-sub-menu>
 
-      <el-sub-menu index="3">
+      <el-sub-menu index="/good-management">
         <template #title>
           <el-icon><goods /></el-icon>
           <span>商品管理</span>
         </template>
-        <el-menu-item index="3-1">分类管理</el-menu-item>
-        <el-menu-item index="3-2">商品列表</el-menu-item>
+
+        <el-menu-item index="/good-management/category">分类管理</el-menu-item>
+
+        <router-link :to="{ name: 'GoodList' }">
+          <el-menu-item index="/good-management/good-list"
+            >商品列表</el-menu-item
+          >
+        </router-link>
       </el-sub-menu>
 
-      <el-sub-menu index="4">
+      <el-sub-menu index="/user-management">
         <template #title>
           <el-icon><user /></el-icon>
           <span>用户管理</span>
         </template>
-        <el-menu-item index="4-1">用户列表</el-menu-item>
+
+        <el-menu-item index="/user-management/user-list">用户列表</el-menu-item>
       </el-sub-menu>
 
       <el-sub-menu index="5">
@@ -97,6 +105,15 @@ export default defineComponent({
 .container {
   height: 100%;
   background-color: #001529;
+
+  .router-link-active {
+    text-decoration: none;
+    color: yellow;
+  }
+  a {
+    text-decoration: none;
+    color: white;
+  }
 
   .logo {
     display: flex;
