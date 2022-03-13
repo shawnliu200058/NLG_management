@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 import Login from '../views/login/Login.vue'
-import Main from '../views/main/Main.vue'
 import Layout from '@/layout/Layout.vue'
-import DashBoard from '@/views/main/dashboard/dashboard.vue'
+import DashBoard from '@/views/dashboard/dashboard.vue'
 import GoodManagementRoute from './modules/good-management'
 import UserManagementRoute from './modules/user-management'
 

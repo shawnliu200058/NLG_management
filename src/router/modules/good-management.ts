@@ -13,7 +13,7 @@
 
 // export { categoryRoute, goodListRoute }
 
-import Layout from '@/views/main/Main.vue'
+import Layout from '@/layout/Layout.vue'
 
 const GoodManagementRoute = {
   path: '/good-management',
@@ -24,13 +24,13 @@ const GoodManagementRoute = {
     {
       path: 'category',
       name: 'Category',
-      component: () => import('@/views/main/good-manament/category.vue'),
+      component: () => import('@/views/good-manament/category.vue'),
       meta: { title: '分类管理' }
     },
     {
       path: 'good-list',
       name: 'GoodList',
-      component: () => import('@/views/main/good-manament/good-list.vue'),
+      component: () => import('@/views/good-manament/good-list.vue'),
       meta: { title: '商品列表' }
     }
   ]

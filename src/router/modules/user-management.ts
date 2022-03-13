@@ -1,4 +1,4 @@
-import Layout from '@/views/main/Main.vue'
+import Layout from '@/layout/Layout.vue'
 
 const UserManagementRoute = {
   path: '/user-management',
@@ -9,7 +9,7 @@ const UserManagementRoute = {
     {
       path: 'user-list',
       name: 'UserList',
-      component: () => import('@/views/main/user-management/user-list.vue'),
+      component: () => import('@/views/user-management/user-list.vue'),
       meta: { title: '用户列表' }
     }
   ]

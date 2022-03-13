@@ -11,9 +11,7 @@
           class="no-redirect"
           >{{ item.meta.title }}</span
         >
-        <a v-else @click.prevent="handleLink(item.path)">{{
-          item.meta.title
-        }}</a>
+        <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
@@ -23,7 +21,8 @@
 import { defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute, RouteLocationMatched } from 'vue-router'
 
-import pathToRegexp from 'path-to-regexp'
+// import pathToRegexp from 'path-to-regexp' 会报错
+import * as pathToRegexp from 'path-to-regexp'
 
 import router from '@/router'
 import { IMatchedItem } from './type'
@@ -55,7 +54,6 @@ export default defineComponent({
 
     const isDashBoard = (route: RouteLocationMatched) => {
       const name = (route && route.name) as string
-      console.log(name)
       if (!name) {
         return false
       }
@@ -72,15 +70,14 @@ export default defineComponent({
       return toPath(params)
     }
 
-    const handleLink = (path: string) => {
-      router.push(path)
-      // const { redirect, path } = item
-      // if (redirect) {
-      //   router.push(redirect)
-      //   return
-      // }
+    const handleLink = (item: any) => {
+      const { redirect, path } = item
+      if (redirect) {
+        router.push(redirect)
+        return
+      }
       // console.log(path)
-      // router.push(pathCompile(path))
+      router.push(pathCompile(path))
     }
 
     getBreadCrumb()
