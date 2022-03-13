@@ -37,14 +37,14 @@ export default defineComponent({
     const loginAction = (isKeepPassword: boolean) => {
       formRef.value?.validate((valid) => {
         if (valid) {
-          // if (isKeepPassword) {
-          //   localCache.setCache('name', account.name)
-          //   localCache.setCache('password', account.password)
-          // } else {
-          //   localCache.deleteCache('password')
-          // }
-          // // 解构后再包在一个对象，保证响应式
-          // store.accountLoginAction({ ...account })
+          if (isKeepPassword) {
+            localCache.setCache('name', account.name)
+            localCache.setCache('password', account.password)
+          } else {
+            localCache.deleteCache('password')
+          }
+          // 解构后再包在一个对象，保证响应式
+          store.accountLoginAction({ ...account })
         }
       })
     }

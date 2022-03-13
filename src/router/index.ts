@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 import Login from '../views/login/Login.vue'
+import Main from '../views/main/Main.vue'
 import localCache from '@/utils/cache'
 
 const routes: Array<RouteRecordRaw> = [
@@ -25,8 +26,13 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/main',
     name: 'Main',
+    component: Main
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'notFound',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/main/Main.vue')
+      import(/* webpackChunkName: "404" */ '../views/error-page/404.vue')
   }
 ]
 
@@ -36,6 +42,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
+  console.log(to.path)
   if (to.path !== '/login') {
     const token = localCache.getToken()
     if (!token) return '/login'
