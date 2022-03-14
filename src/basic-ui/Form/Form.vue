@@ -1,5 +1,8 @@
 <template>
   <div class="basic-form">
+    <div class="header">
+      <slot name="header"></slot>
+    </div>
     <el-form :label-width="labelWidth">
       <el-row>
         <template v-for="item in formItems" :key="item.label">
@@ -16,6 +19,7 @@
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
                   :show-password="item.type === 'password'"
+                  v-model="formData[`${item.field}`]"
                 ></el-input>
               </template>
               <template v-else-if="item.type === 'select'">
@@ -23,6 +27,7 @@
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
                   style="width: 100%"
+                  v-model="formData[`${item.field}`]"
                 >
                   <el-option
                     v-for="option in item.options"
@@ -36,6 +41,7 @@
                 <el-date-picker
                   style="width: 100%"
                   v-bind="item.otherOptions"
+                  v-model="formData[`${item.field}`]"
                 ></el-date-picker>
               </template>
             </el-form-item>
@@ -43,15 +49,22 @@
         </template>
       </el-row>
     </el-form>
+    <div class="footer">
+      <slot name="footer"></slot>
+    </div>
   </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 import { IFormItem } from './type'
 
 export default defineComponent({
   props: {
+    modelValue: {
+      type: Object,
+      default: () => {}
+    },
     formItems: {
       // 数组元素为 IFormItem 类型
       type: Array as PropType<IFormItem[]>,
@@ -78,14 +91,28 @@ export default defineComponent({
       })
     }
   },
-  setup() {
-    return {}
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    const formData = ref({ ...props.modelValue })
+
+    watch(
+      formData,
+      (newVal) => {
+        console.log(newVal)
+        emit('update:modelValue', newVal)
+      },
+      { deep: true }
+    )
+
+    return {
+      formData
+    }
   }
 })
 </script>
 
 <style lang='less' scoped>
-.basic-form {
-  padding-top: 22px;
-}
+// .basic-form {
+//   padding-top: 22px;
+// }
 </style>

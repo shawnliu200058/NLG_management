@@ -91,7 +91,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang='less' scoped>
+<style lang='scss' scoped>
 .app-breadcrumb.el-breadcrumb {
   display: inline-block;
   font-size: 14px;

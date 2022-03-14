@@ -1,5 +1,4 @@
 import hyRequest from '../../index'
-
 import IDataType from '../type'
 import { IAccount, ILoginResult } from './type'
 
@@ -14,6 +13,4 @@ function accountLoginReq(account: IAccount) {
   })
 }
 
-export {
-  accountLoginReq
-}
+export { accountLoginReq }

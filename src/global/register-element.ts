@@ -10,7 +10,9 @@ import {
   List,
   Setting,
   Expand,
-  Fold
+  Fold,
+  Search,
+  Refresh
 } from '@element-plus/icons-vue'
 
 const icons = [
@@ -23,7 +25,9 @@ const icons = [
   List,
   Setting,
   Expand,
-  Fold
+  Fold,
+  Search,
+  Refresh
 ]
 
 export default function (app: App): void {

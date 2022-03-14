@@ -10,7 +10,7 @@ const hyRequest = new HYRequest({
   interceptors: {
     requestInterceptor: (config: any) => {
       // console.log('请求成功的拦截')
-      const token = localCache.getCache('token')
+      const token = localCache.getToken()
       if (token) config.headers.Authorization = `Bearer ${token}`
       return config
     },
