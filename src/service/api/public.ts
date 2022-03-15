@@ -10,3 +10,5 @@ export function getPageListData(
     data: queryInfo
   })
 }
+
+export function getQueryListData() {}

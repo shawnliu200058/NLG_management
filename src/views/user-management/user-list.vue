@@ -1,12 +1,18 @@
 <template>
   <div class="user">
     <el-card>
-      <page-search :search-form-config="searchFormConfig" />
+      <page-search
+        :search-form-config="searchFormConfig"
+        @queryBtnClick="handleQueryClick"
+      />
     </el-card>
 
     <div class="content">
       <el-card>
         <basic-table :list-data="userList" :prop-list="propList">
+          <template #headerHandler>
+            <el-button type="primary">新建用户</el-button>
+          </template>
           <template #gender="scope">
             {{ scope.row.gender ? '女' : '男' }}
           </template>
@@ -18,30 +24,18 @@
               :preview-src-list="[scope.row.avatarUrl]"
             ></el-image>
           </template>
+          <template #createdAt="scope">
+            {{ $filters.formatTime(scope.row.createdAt) }}
+          </template>
+          <template #updatedAt="scope">
+            {{ $filters.formatTime(scope.row.uodatedAt) }}
+          </template>
+          <template #operation>
+            <el-button type="primary" icon="Edit" circle />
+            <el-button type="danger" icon="Delete" circle />
+          </template>
         </basic-table>
       </el-card>
-      <!-- <el-table :data="userList" border style="width: 100%">
-        <el-table-column prop="id" label="ID" width="180" />
-        <el-table-column prop="openid" label="openid" width="180" />
-        <el-table-column prop="nickName" label="昵称" />
-        <el-table-column prop="gender" label="性别">
-          <template #default="scope">{{
-            scope.row.gender ? '女' : '男'
-          }}</template>
-        </el-table-column>
-        <el-table-column prop="avatarUrl" label="头像">
-          <template #default="scope">
-            <div style="display: flex; align-items: center">
-              <el-image
-                style="width: 100px; height: 100px"
-                :src="scope.row.avatarUrl"
-                fit="cover"
-                :preview-src-list="[scope.row.avatarUrl]"
-              ></el-image>
-            </div>
-          </template>
-        </el-table-column>
-      </el-table> -->
     </div>
   </div>
 </template>
@@ -53,6 +47,7 @@ import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/store/user/user'
 
 import { searchFormConfig } from './config/search.config'
+import { contentTableConfig, propList } from './config/content.config'
 import PageSearch from '@/components/page-search/page-search.vue'
 import BasicTable from '@/basic-ui/Table'
 
@@ -63,22 +58,32 @@ export default defineComponent({
   },
   setup() {
     const userStore = useUserStore()
-    userStore.getPageListAction('user')
+
+    const getPageData = (queryInfo: any = {}) => {
+      userStore.getPageListAction({
+        type: 'user',
+        queryInfo: {
+          offset: 0,
+          size: 10,
+          ...queryInfo
+        }
+      })
+    }
+
+    // 首次进入页面获取用户列表
+    getPageData()
     const { userList } = storeToRefs(userStore)
 
-    const propList = [
-      { prop: 'id', label: 'id', minWidth: '100' },
-      { prop: 'nickName', label: '昵称', minWidth: '100' },
-      { prop: 'gender', label: '性别', minWidth: '100' },
-      { prop: 'avatarUrl', label: '头像', minWidth: '100' },
-      { prop: 'createdAt', label: '创建时间', minWidth: '100' },
-      { prop: 'updatedAt', label: '更新时间', minWidth: '100' }
-    ]
+    // 模糊搜索获取用户列表
+    const handleQueryClick = (queryInfo: any = {}) => {
+      getPageData(queryInfo)
+    }
 
     return {
       searchFormConfig,
       userList,
-      propList
+      propList,
+      handleQueryClick
     }
   }
 })

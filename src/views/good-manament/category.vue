@@ -23,7 +23,6 @@
     </el-table>
 
     <div class="demo-pagination-block">
-      <div class="demonstration">All combined</div>
       <el-pagination
         v-model:currentPage="currentPage4"
         v-model:page-size="pageSize4"

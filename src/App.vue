@@ -1,8 +1,6 @@
 <template>
   <el-config-provider :locale="locale">
-    <div id="app">
-      <router-view></router-view>
-    </div>
+    <router-view></router-view>
   </el-config-provider>
 </template>
 
@@ -25,7 +23,4 @@ export default defineComponent({
 </script>
 
 <style lang='less' scoped>
-.app {
-  height: 100%;
-}
 </style>

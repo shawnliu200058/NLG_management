@@ -6,8 +6,10 @@
       </template>
       <template #footer>
         <div class="handle-btns">
-          <el-button icon="Refresh">重置</el-button>
-          <el-button type="primary" icon="Search">搜索</el-button>
+          <el-button icon="Refresh" @click="handleResetClick">重置</el-button>
+          <el-button type="primary" icon="Search" @click="handleQueryClick"
+            >搜索</el-button
+          >
         </div>
       </template>
     </basic-form>
@@ -29,16 +31,31 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
-    const formData = ref({
-      id: '',
-      name: '',
-      address: '',
-      createdAt: ''
-    })
+  emits: ['queryBtnClick'],
+  setup(props, { emit }) {
+    // formData 中的属性由 searchFormConfig 动态决定
+    const formItems = props.searchFormConfig?.formItems ?? []
+    const formOriginData: any = {}
+    for (const item of formItems) formOriginData[item.field] = ''
+    // 动态设置属性名
+    const formData = ref(formOriginData)
+
+    // 当用户点击重置
+    const handleResetClick = () => {
+      // 如果写成 formData.value = formOriginData 会导致无法响应式更新
+      for (const key in formOriginData) {
+        formData.value[key] = formOriginData[key]
+      }
+    }
+
+    const handleQueryClick = () => {
+      emit('queryBtnClick', formData.value)
+    }
 
     return {
-      formData
+      formData,
+      handleResetClick,
+      handleQueryClick
     }
   }
 })

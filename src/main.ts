@@ -8,7 +8,7 @@ import { setupStore } from './store'
 import '@/styles/index.scss' // global css
 import 'element-plus/dist/index.css'
 import 'normalize.css'
-import './assets/css/index.less'
+// import './assets/css/index.less'
 
 // import * as Icons from '@element-plus/icons-vue'
 import globalRegister from '@/global'

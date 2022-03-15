@@ -9,10 +9,13 @@ export const useUserStore = defineStore('user', {
     }
   },
   actions: {
-    async getPageListAction(type: string) {
+    async getPageListAction(payload: any) {
+      const { type, queryInfo } = payload
+      console.log(payload)
       const result = await getPageListData(type)
       this.userList = result.data
       console.log(result)
-    }
+    },
+    async getPageListByQuery(payload: any) {}
   }
 })
