@@ -16,6 +16,7 @@
                 v-if="item.type === 'input' || item.type === 'password'"
               >
                 <el-input
+                  clearable
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
                   :show-password="item.type === 'password'"
@@ -33,8 +34,8 @@
                     v-for="option in item.options"
                     :key="option.value"
                     :value="option.value"
-                    >{{ option.title }}</el-option
-                  >
+                    :label="option.label"
+                  ></el-option>
                 </el-select>
               </template>
               <template v-else-if="item.type === 'datepicker'">
@@ -43,6 +44,9 @@
                   v-bind="item.otherOptions"
                   v-model="formData[`${item.field}`]"
                 ></el-date-picker>
+              </template>
+              <template v-else-if="item.type === 'upload'">
+                <basic-upload></basic-upload>
               </template>
             </el-form-item>
           </el-col>
@@ -57,9 +61,14 @@
 
 <script lang='ts'>
 import { defineComponent, PropType, ref, watch } from 'vue'
+
 import { IFormItem } from './type'
+import BasicUpload from '../Upload'
 
 export default defineComponent({
+  components: {
+    BasicUpload
+  },
   props: {
     modelValue: {
       type: Object,

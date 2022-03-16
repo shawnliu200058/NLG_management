@@ -11,4 +11,10 @@ export function getPageListData(
   })
 }
 
-export function getQueryListData() {}
+export function editPageData(type: string, id: number, editData: any) {
+  return hyRequest.patch<IDataType>({
+    url: `/${type}/${id}`,
+    data: editData,
+    method: 'PATCH'
+  })
+}

@@ -59,11 +59,11 @@ class HYRequest {
         // 将 loading 移除
         this.loading?.close()
         // console.log(res)
-        const { data } = res
+        // const { data } = res
         // if (data.returnCode === '-1001') console.log('请求失败')
         // else return data
         // return res
-        return data
+        return res
       },
       (err) => {
         console.log('所有的实例都有的拦截器：响应失败拦截')

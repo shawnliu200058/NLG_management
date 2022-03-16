@@ -14,7 +14,8 @@ import {
   Search,
   Refresh,
   Edit,
-  Delete
+  Delete,
+  Plus
 } from '@element-plus/icons-vue'
 
 const icons = [
@@ -31,7 +32,8 @@ const icons = [
   Search,
   Refresh,
   Edit,
-  Delete
+  Delete,
+  Plus
 ]
 
 export default function (app: App): void {

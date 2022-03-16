@@ -1,15 +1,28 @@
 import { defineStore } from 'pinia'
+import { getPageListData } from '@/service/api/public'
 
 import { useLoginStore } from './login/login'
+import { useUserStore } from './user/user'
+import { useGoodStore } from './good/good'
 
 // useStore could be anything like useUser, useCart
 // the first argument is a unique id of the store across your application
-export const useStore = defineStore('main', {
-  // other options...
+export const usePublicStore = defineStore('public', {
   state: () => {
     return {}
   },
-  actions: {}
+  actions: {
+    async getPageListAction(payload: any) {
+      console.log(payload)
+      const { pageName, queryInfo } = payload
+      const result = await getPageListData(pageName, queryInfo)
+      console.log(result)
+      if (pageName === 'user') useUserStore().userList = result.data
+      else if (pageName === 'category')
+        useGoodStore().categoryList = result.data
+      else if (pageName === 'good') useGoodStore().goodList = result.data
+    }
+  }
 })
 
 export function setupStore() {
