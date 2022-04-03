@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <login-panel/>
+    <login-panel />
   </div>
 </template>
 
@@ -15,9 +15,9 @@ export default defineComponent({
   setup() {
     const count = ref(0)
     return {
-      count,
+      count
     }
-  },
+  }
 })
 </script>
 
@@ -28,6 +28,6 @@ export default defineComponent({
   align-items: center;
   width: 100%;
   height: 100%;
-  background: url("../../assets/img/login-bg.svg");
+  background: url('../../assets/img/login-bg.svg');
 }
 </style>

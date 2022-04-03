@@ -15,7 +15,8 @@ import {
   Refresh,
   Edit,
   Delete,
-  Plus
+  Plus,
+  UploadFilled
 } from '@element-plus/icons-vue'
 
 const icons = [
@@ -33,7 +34,8 @@ const icons = [
   Refresh,
   Edit,
   Delete,
-  Plus
+  Plus,
+  UploadFilled
 ]
 
 export default function (app: App): void {

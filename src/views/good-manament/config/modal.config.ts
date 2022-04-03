@@ -9,10 +9,11 @@ export const categoryModalConfig: IForm = {
       placeholder: '请输入分类名称'
     },
     {
-      field: 'icon',
-      type: 'upload',
+      field: 'icon_url',
+      type: 'avatar',
       label: '分类图标'
     }
   ],
-  colLayout: { span: 24 }
+  colLayout: { span: 24 },
+  isShowUpload: true
 }

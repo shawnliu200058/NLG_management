@@ -41,7 +41,7 @@
     <page-modal
       :modal-config="categoryModalConfig"
       :default-info="defaultInfo"
-      page-name="user"
+      page-name="category"
       title="编辑分类"
       ref="pageModalRef"
     ></page-modal>
@@ -73,10 +73,6 @@ export default defineComponent({
     PageModal
   },
   setup() {
-    const handleClick = () => {
-      console.log('click')
-    }
-
     const publicStore = usePublicStore()
     const goodStore = useGoodStore()
 
@@ -95,7 +91,6 @@ export default defineComponent({
     if (!categoryCount.value) getPageData()
 
     return {
-      handleClick,
       categoryList,
       categoryPropList,
       categoryModalConfig,

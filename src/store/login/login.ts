@@ -23,7 +23,7 @@ export const useLoginStore = defineStore('login', {
       // console.log('执行登录操作', payload)
       const result = await accountLoginReq(payload)
       console.log(result)
-      if (result.returnCode === 200) {
+      if (!result.data.errMsg) {
         const { id, name, token } = result.data
         // 保存 token
         this.$patch((state: ILoginState) => {

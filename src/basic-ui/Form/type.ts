@@ -1,4 +1,10 @@
-type IFormType = 'input' | 'password' | 'select' | 'datepicker' | 'upload'
+type IFormType =
+  | 'input'
+  | 'password'
+  | 'select'
+  | 'datepicker'
+  | 'upload'
+  | 'avatar'
 
 export interface IFormItem {
   field: string
@@ -17,4 +23,5 @@ export interface IForm {
   labelWidth?: string
   colLayout?: any
   itemStyle?: any
+  isShowUpload?: boolean
 }

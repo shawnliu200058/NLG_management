@@ -11,25 +11,25 @@
         </template>
         <login-account ref="accountRef" />
       </el-tab-pane>
-      <el-tab-pane name="phone">
+      <!-- <el-tab-pane name="phone">
         <template #label>
           <span class="icon">
             <el-icon><cellphone /></el-icon>手机登录
           </span>
         </template>
         <login-phone />
-      </el-tab-pane>
+      </el-tab-pane> -->
     </el-tabs>
 
     <div class="account-control">
       <el-checkbox-group v-model="isKeepPassword">
         <el-checkbox label="记住密码" />
-      </el-checkbox-group >
+      </el-checkbox-group>
       <el-link type="primary">忘记密码</el-link>
     </div>
 
-    <el-button type="primary" class="login-btn" @click="loginClick"
-      size="large">立即登录</el-button
+    <el-button type="primary" class="login-btn" @click="loginClick" size="large"
+      >立即登录</el-button
     >
   </div>
 </template>

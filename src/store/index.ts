@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { getPageListData } from '@/service/api/public'
+import { editPageData } from '@/service/api/public'
 
 import { useLoginStore } from './login/login'
 import { useUserStore } from './user/user'
@@ -13,7 +14,7 @@ export const usePublicStore = defineStore('public', {
   },
   actions: {
     async getPageListAction(payload: any) {
-      console.log(payload)
+      // console.log(payload)
       const { pageName, queryInfo } = payload
       const result = await getPageListData(pageName, queryInfo)
       console.log(result)
@@ -21,6 +22,20 @@ export const usePublicStore = defineStore('public', {
       else if (pageName === 'category')
         useGoodStore().categoryList = result.data
       else if (pageName === 'good') useGoodStore().goodList = result.data
+    },
+    async editPageDataAction(payload: any) {
+      console.log(payload)
+      const { pageName, editData, id } = payload
+      const result = await editPageData(pageName, id, editData)
+      console.log(result)
+
+      this.getPageListAction({
+        pageName,
+        queryInfo: {
+          offset: 0,
+          limit: 10
+        }
+      })
     }
   }
 })

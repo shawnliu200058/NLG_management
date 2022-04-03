@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 
 import { getPageListData, editPageData } from '@/service/api/public'
-import userListVue from '@/views/user-management/user-list.vue'
 
 export const useUserStore = defineStore('user', {
   state: () => {

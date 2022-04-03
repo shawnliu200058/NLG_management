@@ -3,10 +3,14 @@
     <el-dialog
       :title="title"
       v-model="dialogVisible"
-      width="30%"
+      width="40%"
       destroy-on-close
     >
-      <basic-form v-bind="modalConfig" v-model="formData"></basic-form>
+      <basic-form
+        v-bind="modalConfig"
+        v-model="formData"
+        ref="formRef"
+      ></basic-form>
       <div slot="footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="handleConfirmClick">确 定</el-button>
@@ -16,9 +20,11 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref, watch, onMounted } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 
 import BasicForm from '@/basic-ui/Form'
+
+import { usePublicStore } from '@/store'
 import { useUserStore } from '@/store/user/user'
 
 export default defineComponent({
@@ -39,6 +45,10 @@ export default defineComponent({
     pageName: {
       type: String,
       require: true
+    },
+    isShowUpload: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props) {
@@ -50,15 +60,21 @@ export default defineComponent({
     watch(
       () => props.defaultInfo,
       (newVal) => {
+        formData.value.id = newVal.id
         for (const item of props.modalConfig.formItems) {
           formData.value[item.field] = newVal[item.field]
           // editPayload.value[item.field] = newVal[item.field]
         }
+        // console.log(formData.value)
       }
     )
 
+    const formRef = ref<InstanceType<typeof BasicForm>>()
+    const publicStore = usePublicStore()
     const handleConfirmClick = () => {
       dialogVisible.value = false
+      // 上传属于某 item 的文件
+      formRef.value?.uploadAction(formData.value.id)
       const editPayload = {
         pageName: props.pageName,
         id: props.defaultInfo.id,
@@ -69,13 +85,14 @@ export default defineComponent({
         if (props.pageName === 'user') {
           const userStore = useUserStore()
           userStore.editPageDataAction(editPayload)
-        }
+        } else publicStore.editPageDataAction(editPayload)
       }
     }
 
     return {
       dialogVisible,
       formData,
+      formRef,
       handleConfirmClick
     }
   }

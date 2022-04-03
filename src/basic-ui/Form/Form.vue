@@ -3,7 +3,7 @@
     <div class="header">
       <slot name="header"></slot>
     </div>
-    <el-form :label-width="labelWidth">
+    <el-form :label-width="labelWidth" :inline="isInline">
       <el-row>
         <template v-for="item in formItems" :key="item.label">
           <el-col v-bind="colLayout">
@@ -45,14 +45,25 @@
                   v-model="formData[`${item.field}`]"
                 ></el-date-picker>
               </template>
-              <template v-else-if="item.type === 'upload'">
-                <basic-upload></basic-upload>
+              <template v-else-if="item.type === 'avatar'">
+                <el-avatar
+                  shape="square"
+                  :size="200"
+                  fit="fit"
+                  :src="formData[`${item.field}`]"
+                />
               </template>
+              <!-- <template v-else-if="item.type === 'upload'">
+                <basic-upload ref="basicUploadRef"></basic-upload>
+              </template> -->
             </el-form-item>
           </el-col>
         </template>
       </el-row>
+      <!-- 写在这里的原因是 v-if 不能与 ref 同时使用 -->
+      <basic-upload v-show="isShowUpload" ref="basicUploadRef"></basic-upload>
     </el-form>
+
     <div class="footer">
       <slot name="footer"></slot>
     </div>
@@ -60,7 +71,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, PropType, ref, watch } from 'vue'
+import { defineComponent, nextTick, PropType, ref, watch } from 'vue'
 
 import { IFormItem } from './type'
 import BasicUpload from '../Upload'
@@ -83,6 +94,10 @@ export default defineComponent({
       type: String,
       default: '100px'
     },
+    isInline: {
+      type: Boolean,
+      default: false
+    },
     itemStyle: {
       type: Object,
       default: () => ({
@@ -98,6 +113,10 @@ export default defineComponent({
         sm: 24,
         xs: 24
       })
+    },
+    isShowUpload: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['update:modelValue'],
@@ -113,8 +132,16 @@ export default defineComponent({
       { deep: true }
     )
 
+    const basicUploadRef = ref<InstanceType<typeof BasicUpload>>()
+
+    const uploadAction = (uploadItemId: number) => {
+      basicUploadRef.value?.uploadFile(uploadItemId)
+    }
+
     return {
-      formData
+      formData,
+      basicUploadRef,
+      uploadAction
     }
   }
 })
