@@ -73,8 +73,6 @@ export default defineComponent({
     const publicStore = usePublicStore()
     const handleConfirmClick = () => {
       dialogVisible.value = false
-      // 上传属于某 item 的文件
-      formRef.value?.uploadAction(formData.value.id)
       const editPayload = {
         pageName: props.pageName,
         id: props.defaultInfo.id,
@@ -82,10 +80,22 @@ export default defineComponent({
       }
       // 若 defaultInfo 存在字段，则说明为编辑操作
       if (Object.keys(props.defaultInfo).length) {
-        if (props.pageName === 'user') {
-          const userStore = useUserStore()
-          userStore.editPageDataAction(editPayload)
-        } else publicStore.editPageDataAction(editPayload)
+        publicStore.editPageDataAction(editPayload)
+        formRef.value?.uploadAction(formData.value.id)
+      } else {
+        // 新建
+        const createPayload = {
+          pageName: props.pageName,
+          newData: { ...formData.value }
+        }
+        const promiseResult = publicStore.createPageDataAction(createPayload)
+        // console.log(result)
+        promiseResult.then((resId) => {
+          // console.log(res)
+          // const { insertId } = result.data
+          // 上传属于某 item 的文件（新建）
+          formRef.value?.uploadAction(resId, props.pageName as string)
+        })
       }
     }
 

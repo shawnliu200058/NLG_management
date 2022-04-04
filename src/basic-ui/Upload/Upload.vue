@@ -23,7 +23,8 @@
       action=""
       :auto-upload="false"
       :limit="1"
-      :on-exceed="uploadExceed"
+      :on-change="onChange"
+      :on-exceed="handleExceed"
     >
       <template #trigger>
         <el-button type="primary">选择文件</el-button>
@@ -59,9 +60,16 @@ import { ElMessage } from 'element-plus'
 
 import { fileUploadReq, fileUpdateReq } from '@/service/api/file/upload'
 
-// import { Plus, ZoomIn, Download, Delete } from '@element-plus/icons-vue'
+import { usePublicStore } from '@/store'
 
-// import type { UploadFile, UploadFiles } from 'element-plus'
+import { genFileId } from 'element-plus'
+import type {
+  UploadInstance,
+  UploadProps,
+  UploadFile,
+  UploadFiles,
+  UploadRawFile
+} from 'element-plus'
 
 export default defineComponent({
   setup() {
@@ -74,19 +82,49 @@ export default defineComponent({
       dialogVisible.value = true
     }
 
-    const uploadRef = ref<any>()
-    const uploadFile = (uploadItemId: number) => {
-      // console.log(uploadRef.value.uploadFiles[0])
+    const uploadRef = ref<UploadInstance>()
+
+    const handleExceed: UploadProps['onExceed'] = (files: any) => {
+      uploadRef.value!.clearFiles()
+      const file = files[0] as UploadRawFile
+      file.uid = genFileId()
+      uploadRef.value!.handleStart(file)
+    }
+
+    const beforeUpload = (rawFile: UploadRawFile) => {
+      // console.log(rawFile)
+    }
+
+    let form = new FormData()
+    const onChange = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+      // console.log(uploadFile.raw)
+      form.append('img', uploadFile.raw as any)
+      console.log(form.get('img'))
+    }
+
+    const publicStore = usePublicStore()
+    const uploadFile = (uploadItemId: number, pageName?: string) => {
+      // console.log(uploadRef.value)
       // console.log(uploadItemId)
-      if (uploadRef.value.uploadFiles[0]) {
-        let fileObj = uploadRef.value.uploadFiles[0].raw
-        // let fileObj = options.file
-        let form = new FormData()
-        form.append('img', fileObj)
-        console.log(form.get('img'))
+      if (form.get('img')) {
+        // let fileObj = uploadRef.value.uploadFiles[0].raw
+        // // let fileObj = options.file
+        // let form = new FormData()
+        // form.append('img', fileObj)
+        // console.log(form.get('img'))
         fileUpdateReq('categoryIcon', uploadItemId, form)
           .then((res) => {
             // options.onSuccess(res)
+            if (pageName) {
+              // 上传完文件后再重新刷新页面，防止图片不能更新
+              publicStore.getPageListAction({
+                pageName,
+                queryInfo: {
+                  offset: 0,
+                  limit: 10
+                }
+              })
+            }
           })
           .catch((err) => {
             // options.onError(err)
@@ -96,10 +134,6 @@ export default defineComponent({
 
     const uploadExceed = () => {
       ElMessage.error('只能上传 1 个文件')
-    }
-
-    const beforeUpload = (rawFile: any) => {
-      // console.log(rawFile)
     }
 
     const onSuccess = (response: any, uploadFile: any, uploadFiles: any) => {
@@ -115,9 +149,11 @@ export default defineComponent({
       handlePictureCardPreview,
       process,
       uploadRef,
+      handleExceed,
       uploadExceed,
       uploadFile,
       beforeUpload,
+      onChange,
       onSuccess,
       value
     }

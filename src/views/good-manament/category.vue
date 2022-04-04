@@ -7,7 +7,7 @@
         :show-index-column="false"
       >
         <template #headerHandler>
-          <el-button type="primary">新建分类</el-button>
+          <el-button type="primary" @click="handleNewData">新建分类</el-button>
         </template>
         <template #goods="scope">
           {{ scope.row.goods[0].id ? scope.row.goods.length : 0 }}
@@ -33,7 +33,12 @@
             circle
             @click="handleEditData(scope.row)"
           />
-          <el-button type="danger" icon="Delete" circle />
+          <el-button
+            type="danger"
+            icon="Delete"
+            circle
+            @click="handleDelClick(scope.row)"
+          />
         </template>
       </basic-table>
     </el-card>
@@ -62,10 +67,12 @@ import { categoryPropList } from './config/content.config'
 import { categoryModalConfig } from './config/modal.config'
 
 import {
+  handleNewData,
   handleEditData,
   defaultInfo,
   pageModalRef
 } from '@/hooks/use-page-modal'
+import msgConfirm from '@/hooks/use-msg-confirm'
 
 export default defineComponent({
   components: {
@@ -75,10 +82,11 @@ export default defineComponent({
   setup() {
     const publicStore = usePublicStore()
     const goodStore = useGoodStore()
+    const pageName = 'category'
 
     const getPageData = (queryInfo: any = {}) => {
       publicStore.getPageListAction({
-        pageName: 'category',
+        pageName,
         queryInfo: {
           offset: 0,
           limit: 10,
@@ -90,11 +98,25 @@ export default defineComponent({
     const { categoryList, categoryCount } = storeToRefs(goodStore)
     if (!categoryCount.value) getPageData()
 
+    const delAction = (item?: any) => {
+      publicStore.delPageDataAction({
+        pageName,
+        id: item.id
+      })
+    }
+
+    const handleDelClick = (item: any) => {
+      // console.log(item)
+      msgConfirm('分类', delAction, item)
+    }
+
     return {
       categoryList,
       categoryPropList,
       categoryModalConfig,
+      handleNewData,
       handleEditData,
+      handleDelClick,
       defaultInfo,
       pageModalRef
     }

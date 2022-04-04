@@ -47,6 +47,7 @@
               </template>
               <template v-else-if="item.type === 'avatar'">
                 <el-avatar
+                  v-if="formData[`${item.field}`]"
                   shape="square"
                   :size="200"
                   fit="fit"
@@ -126,7 +127,7 @@ export default defineComponent({
     watch(
       formData,
       (newVal) => {
-        console.log(newVal)
+        // console.log(newVal)
         emit('update:modelValue', newVal)
       },
       { deep: true }
@@ -134,8 +135,12 @@ export default defineComponent({
 
     const basicUploadRef = ref<InstanceType<typeof BasicUpload>>()
 
-    const uploadAction = (uploadItemId: number) => {
-      basicUploadRef.value?.uploadFile(uploadItemId)
+    const uploadAction = (uploadItemId: number, pageName?: string) => {
+      // console.log(uploadItemId)
+      // 新建
+      if (pageName) basicUploadRef.value?.uploadFile(uploadItemId, pageName)
+      // 编辑
+      else basicUploadRef.value?.uploadFile(uploadItemId)
     }
 
     return {

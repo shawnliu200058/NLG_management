@@ -15,7 +15,9 @@
           :show-index-column="false"
         >
           <template #headerHandler>
-            <el-button type="primary">新建用户</el-button>
+            <el-button type="primary" @click="handleNewData"
+              >新建用户</el-button
+            >
           </template>
           <template #gender="scope">
             {{ scope.row.gender ? '女' : '男' }}
@@ -73,6 +75,7 @@ import PageModal from '@/components/page-modal/page-modal.vue'
 import BasicTable from '@/basic-ui/Table'
 
 import {
+  handleNewData,
   handleEditData,
   defaultInfo,
   pageModalRef
@@ -114,6 +117,7 @@ export default defineComponent({
       userList,
       propList,
       handleQueryClick,
+      handleNewData,
       handleEditData,
       defaultInfo,
       pageModalRef
