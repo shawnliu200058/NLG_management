@@ -122,6 +122,8 @@ export default defineComponent({
   }
 
   .handler {
+    display: flex;
+    // margin-right: 20px;
     align-items: center;
   }
 }

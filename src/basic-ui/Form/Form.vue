@@ -137,10 +137,13 @@ export default defineComponent({
 
     const uploadAction = (uploadItemId: number, pageName?: string) => {
       // console.log(uploadItemId)
-      // 新建
-      if (pageName) basicUploadRef.value?.uploadFile(uploadItemId, pageName)
-      // 编辑
-      else basicUploadRef.value?.uploadFile(uploadItemId)
+      // 存在文件上传时才进行上传操作
+      if (props.isShowUpload) {
+        // 新建
+        if (pageName) basicUploadRef.value?.uploadFile(uploadItemId, pageName)
+        // 编辑
+        else basicUploadRef.value?.uploadFile(uploadItemId)
+      }
     }
 
     return {
