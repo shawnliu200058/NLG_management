@@ -5,6 +5,8 @@
         :list-data="list"
         :prop-list="goodPropList"
         :show-index-column="false"
+        v-model:page="pageInfo"
+        :total-count="goodCount"
       >
         <template #headerHandler>
           <basic-select
@@ -63,7 +65,6 @@ import { usePublicStore } from '@/store'
 import { useGoodStore } from '@/store/good/good'
 
 import { goodPropList } from './config/content.config'
-import { categoryModalConfig } from './config/modal.config'
 
 import {
   handleNewData,
@@ -82,33 +83,37 @@ export default defineComponent({
   setup() {
     const publicStore = usePublicStore()
     const goodStore = useGoodStore()
+
     const pageName = 'good'
+    const pageInfo = reactive({ currentPage: 1, pageSize: 10 })
+    watch(pageInfo, () => getPageData())
 
     const getPageData = (queryInfo: any = {}) => {
       publicStore.getPageListAction({
         pageName,
         queryInfo: {
-          offset: 0,
-          limit: 10,
+          offset: (pageInfo.currentPage - 1) * pageInfo.pageSize,
+          limit: pageInfo.pageSize,
           ...queryInfo
         }
       })
     }
 
-    const { goodList, categoryCount } = storeToRefs(goodStore)
-    if (!categoryCount.value) getPageData()
+    const { goodList, goodCount } = storeToRefs(goodStore)
+    if (goodCount.value === 0) getPageData()
 
     let list = reactive<any>([])
     watch(
       goodList,
       (newVal) => {
         // console.log(newVal)
+        list.length = 0
         newVal.forEach((item: any) => {
           list.push(item)
         })
         // console.log(list)
       },
-      { deep: true }
+      { deep: true, immediate: true }
     )
     // el-select的值发生变化时触发
     const selectionChange = (id: any) => {
@@ -142,7 +147,8 @@ export default defineComponent({
       goodList,
       list,
       goodPropList,
-      categoryModalConfig,
+      pageInfo,
+      goodCount,
       selectionChange,
       handleNewData,
       handleEditData,

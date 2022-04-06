@@ -13,6 +13,8 @@
           :list-data="userList"
           :prop-list="propList"
           :show-index-column="false"
+          v-model:page="pageInfo"
+          :total-count="userCount"
         >
           <template #headerHandler>
             <el-button type="primary" @click="handleNewData"
@@ -60,7 +62,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue'
+import { defineComponent, reactive, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { usePublicStore } from '@/store'
@@ -90,13 +92,17 @@ export default defineComponent({
   setup() {
     const publicStore = usePublicStore()
     const userStore = useUserStore()
+    const pageName = 'user'
+
+    const pageInfo = reactive({ currentPage: 1, pageSize: 10 })
+    watch(pageInfo, () => getPageData())
 
     const getPageData = (queryInfo: any = {}) => {
       publicStore.getPageListAction({
-        pageName: 'user',
+        pageName,
         queryInfo: {
-          offset: 0,
-          limit: 10,
+          offset: (pageInfo.currentPage - 1) * pageInfo.pageSize,
+          limit: pageInfo.pageSize,
           ...queryInfo
         }
       })
@@ -104,7 +110,7 @@ export default defineComponent({
 
     // 首次进入页面获取用户列表
     const { userList, userCount } = storeToRefs(userStore)
-    if (!userCount.value) getPageData()
+    if (userCount.value === 0) getPageData()
 
     // 模糊搜索获取用户列表
     const handleQueryClick = (queryInfo: any = {}) => {
@@ -114,6 +120,8 @@ export default defineComponent({
     return {
       searchFormConfig,
       modalConfig,
+      pageInfo,
+      userCount,
       userList,
       propList,
       handleQueryClick,

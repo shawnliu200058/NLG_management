@@ -5,6 +5,8 @@
         :list-data="categoryList"
         :prop-list="categoryPropList"
         :show-index-column="false"
+        v-model:page="pageInfo"
+        :total-count="categoryCount"
       >
         <template #headerHandler>
           <el-button type="primary" @click="handleNewData">新建分类</el-button>
@@ -54,7 +56,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, watch, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import BasicTable from '@/basic-ui/Table'
@@ -84,19 +86,22 @@ export default defineComponent({
     const goodStore = useGoodStore()
     const pageName = 'category'
 
+    const pageInfo = reactive({ currentPage: 1, pageSize: 10 })
+    watch(pageInfo, () => getPageData())
+
     const getPageData = (queryInfo: any = {}) => {
       publicStore.getPageListAction({
         pageName,
         queryInfo: {
-          offset: 0,
-          limit: 10,
+          offset: (pageInfo.currentPage - 1) * pageInfo.pageSize,
+          limit: pageInfo.pageSize,
           ...queryInfo
         }
       })
     }
 
     const { categoryList, categoryCount } = storeToRefs(goodStore)
-    if (!categoryCount.value) getPageData()
+    if (categoryCount.value === 0) getPageData()
 
     const delAction = (item?: any) => {
       publicStore.delPageDataAction({
@@ -111,9 +116,11 @@ export default defineComponent({
     }
 
     return {
+      categoryCount,
       categoryList,
       categoryPropList,
       categoryModalConfig,
+      pageInfo,
       handleNewData,
       handleEditData,
       handleDelClick,

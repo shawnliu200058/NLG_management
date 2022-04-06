@@ -20,12 +20,23 @@ export const usePublicStore = defineStore('public', {
     async getPageListAction(payload: any) {
       // console.log(payload)
       const { pageName, queryInfo } = payload
+      // console.log(pageName[0].toUpperCase() + pageName.substr(1))
+      // const Page = pageName[0].toUpperCase() + pageName.substr(1)
+
       const result = await getPageListData(pageName, queryInfo)
       console.log(result)
-      if (pageName === 'user') useUserStore().userList = result.data
-      else if (pageName === 'category')
-        useGoodStore().categoryList = result.data
-      else if (pageName === 'good') useGoodStore().goodList = result.data
+      const { list, totalCount } = result.data[`${pageName}List`]
+
+      if (pageName === 'user') {
+        useUserStore().userList = list
+        useUserStore().userCount = totalCount
+      } else if (pageName === 'category') {
+        useGoodStore().categoryList = list
+        useGoodStore().categoryCount = totalCount
+      } else if (pageName === 'good') {
+        useGoodStore().goodList = list
+        useGoodStore().goodCount = totalCount
+      }
     },
     async createPageDataAction(payload: any): Promise<any> {
       console.log(payload)

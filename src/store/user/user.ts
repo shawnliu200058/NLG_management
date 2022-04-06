@@ -5,12 +5,8 @@ import { getPageListData, editPageData } from '@/service/api/public'
 export const useUserStore = defineStore('user', {
   state: () => {
     return {
-      userList: []
-    }
-  },
-  getters: {
-    userCount(state) {
-      return state.userList.length
+      userList: [],
+      userCount: 0
     }
   },
   actions: {

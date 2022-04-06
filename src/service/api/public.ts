@@ -7,7 +7,8 @@ export function getPageListData(
 ) {
   return hyRequest.post<IDataType>({
     url: `/${type}/list`,
-    data: queryInfo
+    data: queryInfo,
+    method: 'POST'
   })
 }
 
