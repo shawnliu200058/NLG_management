@@ -9,6 +9,7 @@ import {
 import { useLoginStore } from './login/login'
 import { useUserStore } from './user/user'
 import { useGoodStore } from './good/good'
+import { useOrderStore } from './order/order'
 
 // useStore could be anything like useUser, useCart
 // the first argument is a unique id of the store across your application
@@ -20,8 +21,7 @@ export const usePublicStore = defineStore('public', {
     async getPageListAction(payload: any) {
       // console.log(payload)
       const { pageName, queryInfo } = payload
-      // console.log(pageName[0].toUpperCase() + pageName.substr(1))
-      // const Page = pageName[0].toUpperCase() + pageName.substr(1)
+      // console.log(queryInfo)
 
       const result = await getPageListData(pageName, queryInfo)
       console.log(result)
@@ -36,10 +36,13 @@ export const usePublicStore = defineStore('public', {
       } else if (pageName === 'good') {
         useGoodStore().goodList = list
         useGoodStore().goodCount = totalCount
+      } else if (pageName === 'order') {
+        useOrderStore().orderList = list
+        useOrderStore().orderCount = totalCount
       }
     },
     async createPageDataAction(payload: any): Promise<any> {
-      console.log(payload)
+      // console.log(payload)
       const { pageName, newData } = payload
       const result = await createPageData(pageName, newData)
       const { insertId } = result.data

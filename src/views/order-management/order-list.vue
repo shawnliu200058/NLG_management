@@ -2,37 +2,39 @@
   <div class="category-list">
     <el-card>
       <basic-table
-        :list-data="goodList"
-        :prop-list="goodPropList"
+        :list-data="orderList"
+        :prop-list="orderPropList"
         :show-index-column="false"
         v-model:page="pageInfo"
-        :total-count="goodCount"
+        :total-count="orderCount"
       >
         <template #headerHandler>
-          <basic-select
-            page-name="category"
-            @selection-change="selectionChange"
-          />
+          <el-button type="primary" @click="handleNewData">新建分类</el-button>
         </template>
-
-        <template #price="scope">
-          {{ scope.row.price.toFixed(2) }}
+        <template #goods="scope">
+          {{ scope.row.goods[0].id ? scope.row.goods.length : 0 }}
         </template>
-        <template #displayPicUrl="scope">
+        <template #icon_url="scope">
           <el-image
             style="width: 100px; height: 100px"
-            :src="scope.row.displayPicUrl"
+            :src="scope.row.icon_url"
             fit="cover"
+            :preview-src-list="[scope.row.icon_url]"
           ></el-image>
         </template>
-
+        <template #createdAt="scope">
+          {{ $filters.formatTime(scope.row.createdAt) }}
+        </template>
+        <template #updatedAt="scope">
+          {{ $filters.formatTime(scope.row.updatedAt) }}
+        </template>
         <template #operation="scope">
-          <!-- <el-button
+          <el-button
             type="primary"
             icon="Edit"
             circle
             @click="handleEditData(scope.row)"
-          /> -->
+          />
           <el-button
             type="danger"
             icon="Delete"
@@ -54,17 +56,17 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref, reactive, watch } from 'vue'
+import { defineComponent, watch, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import BasicTable from '@/basic-ui/Table'
-import BasicSelect from '@/basic-ui/Select'
 import PageModal from '@/components/page-modal/page-modal.vue'
 
 import { usePublicStore } from '@/store'
-import { useGoodStore } from '@/store/good/good'
+import { useOrderStore } from '@/store/order/order'
 
-import { goodPropList } from './config/content.config'
+import { orderPropList } from './config/content.config'
+// import { categoryModalConfig } from './config/modal.config'
 
 import {
   handleNewData,
@@ -77,14 +79,13 @@ import msgConfirm from '@/hooks/use-msg-confirm'
 export default defineComponent({
   components: {
     BasicTable,
-    BasicSelect,
     PageModal
   },
   setup() {
     const publicStore = usePublicStore()
-    const goodStore = useGoodStore()
+    const orderStore = useOrderStore()
+    const pageName = 'order'
 
-    const pageName = 'good'
     const pageInfo = reactive({ currentPage: 1, pageSize: 10 })
     watch(pageInfo, () => getPageData())
 
@@ -94,49 +95,13 @@ export default defineComponent({
         queryInfo: {
           offset: (pageInfo.currentPage - 1) * pageInfo.pageSize,
           limit: pageInfo.pageSize,
-          // 其他查询条件
           ...queryInfo
         }
       })
     }
 
-    const { goodList, goodCount } = storeToRefs(goodStore)
-    if (goodCount.value === 0) getPageData()
-
-    // el-select的值发生变化时触发
-    const selectionChange = (id: any) => {
-      console.log(id)
-      getPageData({ categoryId: id })
-    }
-
-    // let list = reactive<any>([])
-    // watch(
-    //   goodList,
-    //   (newVal) => {
-    //     // console.log(newVal)
-    //     list.length = 0
-    //     newVal.forEach((item: any) => {
-    //       list.push(item)
-    //     })
-    //     // console.log(list)
-    //   },
-    //   { deep: true, immediate: true }
-    // )
-    // // el-select的值发生变化时触发
-    // const selectionChange = (id: any) => {
-    //   console.log(id)
-    //   if (id) {
-    //     list.length = 0
-    //     goodList.value.forEach((item: any) => {
-    //       if (id === item.category_id) list.push(item)
-    //     })
-    //   } else {
-    //     goodList.value.forEach((item: any) => {
-    //       list.push(item)
-    //     })
-    //   }
-    //   // console.log(list)
-    // }
+    const { orderList, orderCount } = storeToRefs(orderStore)
+    if (orderCount.value === 0) getPageData()
 
     const delAction = (item?: any) => {
       publicStore.delPageDataAction({
@@ -147,15 +112,14 @@ export default defineComponent({
 
     const handleDelClick = (item: any) => {
       // console.log(item)
-      msgConfirm('商品', delAction, item)
+      msgConfirm('分类', delAction, item)
     }
 
     return {
-      goodList,
-      goodPropList,
+      orderCount,
+      orderList,
+      orderPropList,
       pageInfo,
-      goodCount,
-      selectionChange,
       handleNewData,
       handleEditData,
       handleDelClick,

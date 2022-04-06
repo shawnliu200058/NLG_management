@@ -52,7 +52,7 @@ export default defineComponent({
     if (props.pageName === 'category') {
       const goodStore = useGoodStore()
       const { categoryCount, categoryList } = storeToRefs(goodStore)
-      if (!categoryCount.value) getPageData()
+      if (categoryCount.value === 0) getPageData()
       options = categoryList
     }
 

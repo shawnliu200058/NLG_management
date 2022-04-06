@@ -59,7 +59,9 @@
           <el-icon><list /></el-icon>
           <span>订单管理</span>
         </template>
-        <el-menu-item index="5-1">订单列表</el-menu-item>
+        <el-menu-item index="/order-management/order-list"
+          >订单列表</el-menu-item
+        >
       </el-sub-menu>
 
       <el-sub-menu index="6">

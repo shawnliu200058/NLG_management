@@ -5,6 +5,7 @@ import Layout from '@/layout/Layout.vue'
 import DashBoard from '@/views/dashboard/dashboard.vue'
 import GoodManagementRoute from './modules/good-management'
 import UserManagementRoute from './modules/user-management'
+import OrderManagementRoute from './modules/order-management'
 
 import localCache from '@/utils/cache'
 
@@ -40,6 +41,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   GoodManagementRoute,
   UserManagementRoute,
+  OrderManagementRoute,
   {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
