@@ -9,10 +9,10 @@
         :total-count="orderCount"
       >
         <template #headerHandler>
-          <el-button type="primary" @click="handleNewData">新建分类</el-button>
+          <!-- <el-button type="primary" @click="handleNewData">新建分类</el-button> -->
         </template>
-        <template #goods="scope">
-          {{ scope.row.goods[0].id ? scope.row.goods.length : 0 }}
+        <template #total_price="scope">
+          ￥{{ scope.row.total_price.toFixed(2) }}
         </template>
         <template #icon_url="scope">
           <el-image
@@ -31,9 +31,9 @@
         <template #operation="scope">
           <el-button
             type="primary"
-            icon="Edit"
+            icon="Notebook"
             circle
-            @click="handleEditData(scope.row)"
+            @click="goOrderDetail(scope.row.id)"
           />
           <el-button
             type="danger"
@@ -66,11 +66,12 @@ import { usePublicStore } from '@/store'
 import { useOrderStore } from '@/store/order/order'
 
 import { orderPropList } from './config/content.config'
+
+import router from '@/router/index'
 // import { categoryModalConfig } from './config/modal.config'
 
 import {
   handleNewData,
-  handleEditData,
   defaultInfo,
   pageModalRef
 } from '@/hooks/use-page-modal'
@@ -103,6 +104,10 @@ export default defineComponent({
     const { orderList, orderCount } = storeToRefs(orderStore)
     if (orderCount.value === 0) getPageData()
 
+    const goOrderDetail = (orderId: number) => {
+      router.push({ name: 'OrderDetail', query: { id: orderId } })
+    }
+
     const delAction = (item?: any) => {
       publicStore.delPageDataAction({
         pageName,
@@ -121,7 +126,7 @@ export default defineComponent({
       orderPropList,
       pageInfo,
       handleNewData,
-      handleEditData,
+      goOrderDetail,
       handleDelClick,
       defaultInfo,
       pageModalRef

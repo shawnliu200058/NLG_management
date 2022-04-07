@@ -46,15 +46,17 @@
     </el-table>
 
     <div class="footer" v-if="showFooter">
-      <el-pagination
-        v-model:currentPage="page.currentPage"
-        v-model:page-size="page.pageSize"
-        :page-sizes="[10, 20, 30]"
-        small="small"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="totalCount"
-      >
-      </el-pagination>
+      <slot name="footer">
+        <el-pagination
+          v-model:currentPage="page.currentPage"
+          v-model:page-size="page.pageSize"
+          :page-sizes="[10, 20, 30]"
+          small="small"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="totalCount"
+        >
+        </el-pagination>
+      </slot>
     </div>
   </div>
 </template>
@@ -130,7 +132,7 @@ export default defineComponent({
   display: flex;
   height: 45px;
   padding-bottom: 10px;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 
   .title {
@@ -142,10 +144,13 @@ export default defineComponent({
     display: flex;
     // margin-right: 20px;
     align-items: center;
+    justify-content: flex-start;
   }
 }
 
 .footer {
+  display: flex;
+  justify-content: flex-end;
   margin-top: 15px;
 
   .el-pagination {
