@@ -26,7 +26,9 @@
           <el-icon><notebook /></el-icon>
           <span>内容管理</span>
         </template>
-        <el-menu-item index="2-1">通告管理</el-menu-item>
+        <el-menu-item index="/content-management/announcement-management"
+          >通告管理</el-menu-item
+        >
         <el-menu-item index="2-2">轮播图管理</el-menu-item>
       </el-sub-menu>
 

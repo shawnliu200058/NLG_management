@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "@types/js-cookie": "^3.0.1",
+    "@wangeditor/editor": "^0.15.20",
+    "@wangeditor/editor-for-vue": "^5.1.9",
     "axios": "^0.25.0",
     "core-js": "^3.6.5",
     "crypto-js": "^4.1.1",

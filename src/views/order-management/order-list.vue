@@ -117,7 +117,7 @@ export default defineComponent({
 
     const handleDelClick = (item: any) => {
       // console.log(item)
-      msgConfirm('分类', delAction, item)
+      msgConfirm('订单信息', delAction, item)
     }
 
     return {
