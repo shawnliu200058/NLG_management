@@ -48,13 +48,13 @@ export const usePublicStore = defineStore('public', {
       const { insertId } = result.data
       // console.log(result)
 
-      // this.getPageListAction({
-      //   pageName,
-      //   queryInfo: {
-      //     offset: 0,
-      //     limit: 10
-      //   }
-      // })
+      this.getPageListAction({
+        pageName,
+        queryInfo: {
+          offset: 0,
+          limit: 10
+        }
+      })
 
       return insertId
     },

@@ -17,24 +17,37 @@ import {
   createEditor,
   createToolbar,
   IEditorConfig,
-  IDomEditor
+  IToolbarConfig,
+  IDomEditor,
+  DomEditor
 } from '@wangeditor/editor'
 
 export default defineComponent({
-  setup() {
+  emits: ['update:modelValue'],
+  props: {
+    modelValue: {
+      type: String,
+      default: ''
+    }
+  },
+  setup(props, { emit }) {
     const editorConfig: Partial<IEditorConfig> = {}
     editorConfig.placeholder = '请输入内容'
     editorConfig.onChange = (editor: IDomEditor) => {
       // 当编辑器选区、内容变化时，即触发
-      console.log('content', editor.children)
-      console.log('html', editor.getHtml())
-
+      // console.log('content', editor.children)
+      // console.log('html', editor.getHtml())
+      emit('update:modelValue', editor.getHtml())
       // const content = editor.children
       // const contentStr = JSON.stringify(content)
       // document.getElementById('textarea-1')!.value = contentStr
 
       // const html = editor.getHtml()
       // document.getElementById('textarea-2')!.value = html
+    }
+
+    const toolbarConfig: Partial<IToolbarConfig> = {
+      excludeKeys: ['group-image', 'insertVideo']
     }
 
     onMounted(() => {
@@ -48,14 +61,13 @@ export default defineComponent({
       const toolbar = createToolbar({
         editor,
         selector: '#toolbar-container',
+        config: toolbarConfig,
         mode: 'simple' // 或 'simple' 参考下文
       })
+      // console.log(DomEditor.getToolbar(editor))
     })
 
-    return {
-      // editor,
-      // toolbar
-    }
+    return {}
   }
 })
 </script>
