@@ -57,7 +57,6 @@ export default defineComponent({
         trigger: 'blur'
       }
     ]
-
     const validateContent = (rule: any, value: any, callback: any) => {
       // console.log(value)
       var re = new RegExp('<[^<>]+>', 'g')
@@ -69,7 +68,6 @@ export default defineComponent({
         callback()
       }
     }
-
     const rules = reactive({
       title: titleRule,
       content: [{ validator: validateContent, trigger: 'blur' }]
