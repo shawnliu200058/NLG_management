@@ -29,15 +29,17 @@ declare global {
   const ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
   const ElOption: typeof import('element-plus/es')['ElOption']
   const ElPagination: typeof import('element-plus/es')['ElPagination']
-  const ElRadio: typeof import('element-plus/es')['ElRadio']
-  const ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
   const ElRow: typeof import('element-plus/es')['ElRow']
   const ElSelect: typeof import('element-plus/es')['ElSelect']
   const ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
-  const ElSwitch: typeof import('element-plus/es')['ElSwitch']
   const ElTable: typeof import('element-plus/es')['ElTable']
   const ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
   const ElTabPane: typeof import('element-plus/es')['ElTabPane']
+  const ElTabs: typeof import('element-plus/es')['ElTabs']
+  const ElUpload: typeof import('element-plus/es')['ElUpload']
+}
+export {}
+nst ElTabPane: typeof import('element-plus/es')['ElTabPane']
   const ElTabs: typeof import('element-plus/es')['ElTabs']
   const ElUpload: typeof import('element-plus/es')['ElUpload']
 }

@@ -21,7 +21,7 @@
         <span>首页</span>
       </el-menu-item>
 
-      <el-sub-menu index="2">
+      <el-sub-menu index="/content-management">
         <template #title>
           <el-icon><notebook /></el-icon>
           <span>内容管理</span>
@@ -56,7 +56,7 @@
         <el-menu-item index="/user-management/user-list">用户列表</el-menu-item>
       </el-sub-menu>
 
-      <el-sub-menu index="5">
+      <el-sub-menu index="/order-management">
         <template #title>
           <el-icon><list /></el-icon>
           <span>订单管理</span>

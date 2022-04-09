@@ -8,23 +8,30 @@
       </el-form-item>
       <el-form-item label="通告内容" required prop="content" :rules="rule2">
         <!-- <el-input v-model="form.desc" type="textarea" /> -->
-        <basic-editor v-model="form.content"></basic-editor>
+        <basic-editor
+          v-if="announcement.hasOwnProperty('content')"
+          v-model="form.content"
+          ref="editorRef"
+        ></basic-editor>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm(formRef)">保存</el-button>
-        <el-button>重置</el-button>
+        <el-button @click="resetForm(formRef)">清空</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, onMounted, reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
+import { storeToRefs } from 'pinia'
 
 import BasicEditor from '@/basic-ui/Editor'
 
 import { useAnnouncementStore } from '@/store/announcement/announcement'
+
+import { getAnnouncement } from '@/service/api/announcement/announcement'
 
 export default defineComponent({
   components: {
@@ -35,6 +42,7 @@ export default defineComponent({
       title: '',
       content: ''
     })
+
     const rule1 = [
       {
         required: true,
@@ -62,6 +70,15 @@ export default defineComponent({
     ]
 
     const announcementStore = useAnnouncementStore()
+    // 控制内容回显
+    const { announcement } = storeToRefs(announcementStore)
+    getAnnouncement().then((res) => {
+      announcementStore.setContent(res.data)
+      const { title, content } = res.data
+      form.title = title
+      form.content = content
+    })
+
     const formRef = ref<FormInstance>()
     const submitForm = (formEl: FormInstance | undefined) => {
       if (!formEl) return
@@ -76,12 +93,23 @@ export default defineComponent({
       })
     }
 
+    const editorRef = ref<InstanceType<typeof BasicEditor>>()
+    const resetForm = (formEl: FormInstance | undefined) => {
+      if (!formEl) return
+      formEl.resetFields()
+      // console.log(editorRef.value)
+      editorRef.value!.clearFields()
+    }
+
     return {
       form,
       formRef,
+      editorRef,
+      announcement,
       rule1,
       rule2,
-      submitForm
+      submitForm,
+      resetForm
     }
   }
 })

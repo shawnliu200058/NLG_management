@@ -12,13 +12,13 @@ const ContentManagementRoute = {
       component: () =>
         import('@/views/content-management/announcement-management.vue'),
       meta: { title: '通告管理' }
-    },
-    {
-      path: 'category',
-      name: 'Category',
-      component: () => import('@/views/good-manament/category.vue'),
-      meta: { title: '分类管理' }
     }
+    // {
+    //   path: 'category',
+    //   name: 'Category',
+    //   component: () => import('@/views/good-manament/category.vue'),
+    //   meta: { title: '分类管理' }
+    // }
   ]
 }
 
