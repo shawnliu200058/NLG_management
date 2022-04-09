@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <el-form :model="form" label-width="120px" ref="formRef">
-      <el-form-item label="通告标题" required prop="title" :rules="rule1">
+    <el-form :model="form" label-width="120px" ref="formRef" :rules="rules">
+      <el-form-item label="通告标题" required prop="title">
         <el-col :span="16">
           <el-input v-model="form.title" placeholder="请输入标题"></el-input>
         </el-col>
       </el-form-item>
-      <el-form-item label="通告内容" required prop="content" :rules="rule2">
+      <el-form-item label="通告内容" required prop="content">
         <!-- <el-input v-model="form.desc" type="textarea" /> -->
         <basic-editor
           v-if="announcement.hasOwnProperty('content')"
@@ -25,6 +25,7 @@
 <script lang='ts'>
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
+import { ElNotification } from 'element-plus'
 import { storeToRefs } from 'pinia'
 
 import BasicEditor from '@/basic-ui/Editor'
@@ -43,7 +44,7 @@ export default defineComponent({
       content: ''
     })
 
-    const rule1 = [
+    const titleRule = [
       {
         required: true,
         message: '标题不能为空',
@@ -56,18 +57,23 @@ export default defineComponent({
         trigger: 'blur'
       }
     ]
-    const rule2 = [
-      {
-        required: true,
-        message: '内容不能为空',
-        trigger: 'blur'
-      },
-      {
-        min: 10,
-        message: '内容长度不能少于 10 个字符',
-        trigger: 'blur'
+
+    const validateContent = (rule: any, value: any, callback: any) => {
+      // console.log(value)
+      var re = new RegExp('<[^<>]+>', 'g')
+      var text = value.replace(re, '')
+      // console.log(text)
+      if (text.length < 10) {
+        callback(new Error('内容长度不能少于 10 个字符'))
+      } else {
+        callback()
       }
-    ]
+    }
+
+    const rules = reactive({
+      title: titleRule,
+      content: [{ validator: validateContent, trigger: 'blur' }]
+    })
 
     const announcementStore = useAnnouncementStore()
     // 控制内容回显
@@ -86,6 +92,11 @@ export default defineComponent({
         if (valid) {
           console.log('submit!')
           announcementStore.create(form)
+          ElNotification({
+            title: '提示',
+            message: '保存成功',
+            type: 'success'
+          })
         } else {
           console.log('error submit!')
           return false
@@ -106,8 +117,7 @@ export default defineComponent({
       formRef,
       editorRef,
       announcement,
-      rule1,
-      rule2,
+      rules,
       submitForm,
       resetForm
     }
