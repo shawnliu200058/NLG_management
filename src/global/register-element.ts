@@ -17,7 +17,9 @@ import {
   Delete,
   Plus,
   UploadFilled,
-  Paperclip
+  Paperclip,
+  Tickets,
+  Coin
 } from '@element-plus/icons-vue'
 
 const icons = [
@@ -37,7 +39,9 @@ const icons = [
   Delete,
   Plus,
   UploadFilled,
-  Paperclip
+  Paperclip,
+  Tickets,
+  Coin
 ]
 
 export default function (app: App): void {

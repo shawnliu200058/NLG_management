@@ -4,8 +4,46 @@
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-people">
-            <el-icon :size="40">
-              <edit />
+            <el-icon :size="50">
+              <avatar />
+            </el-icon>
+          </div>
+          <div class="card-panel-description">
+            <div class="card-panel-text">用户总数</div>
+            <count-up
+              :startVal="0"
+              :endVal="10"
+              :duration="3"
+              class="card-panel-num"
+            ></count-up>
+          </div>
+        </div>
+      </el-col>
+
+      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+        <div class="card-panel">
+          <div class="card-panel-icon-wrapper icon-message">
+            <el-icon :size="50">
+              <goods />
+            </el-icon>
+          </div>
+          <div class="card-panel-description">
+            <div class="card-panel-text">商品数量</div>
+            <count-up
+              :startVal="0"
+              :endVal="10"
+              :duration="3"
+              class="card-panel-num"
+            ></count-up>
+          </div>
+        </div>
+      </el-col>
+
+      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+        <div class="card-panel">
+          <div class="card-panel-icon-wrapper icon-money">
+            <el-icon :size="50">
+              <notebook />
             </el-icon>
           </div>
           <div class="card-panel-description">
@@ -22,9 +60,9 @@
 
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-message">
-            <el-icon :size="40">
-              <edit />
+          <div class="card-panel-icon-wrapper icon-shopping">
+            <el-icon :size="50">
+              <coin />
             </el-icon>
           </div>
           <div class="card-panel-description">
