@@ -1,5 +1,5 @@
 <template>
-  <div id="bar-chart" :style="{ height: height, width: width }"></div>
+  <div id="line-chart" :style="{ height: height, width: width }" />
 </template>
 
 <script lang='ts'>
@@ -9,10 +9,10 @@ require('echarts/theme/macarons') // echarts theme
 
 export default defineComponent({
   props: {
-    listData: {
-      type: Array,
-      required: true
-    },
+    // listData: {
+    //   type: Array,
+    //   required: true
+    // },
     className: {
       type: String,
       default: 'chart'
@@ -23,7 +23,7 @@ export default defineComponent({
     },
     height: {
       type: String,
-      default: '300px'
+      default: '400px'
     }
   },
   setup(props) {
@@ -31,41 +31,37 @@ export default defineComponent({
 
     var myChart: echarts.ECharts
     onMounted(() => {
-      var chartDom = document.getElementById('bar-chart')!
+      var chartDom = document.getElementById('line-chart')!
       myChart = echarts.init(chartDom, 'macarons')
       option && myChart.setOption(option)
     })
 
-    const xAxisData = reactive<any>([])
-    const initData = () => {
-      // console.log(props.listData)
-      props.listData.forEach((item: any, index: number) => {
-        xAxisData.push(item?.name)
-      })
-      console.log(xAxisData)
-    }
-    initData()
-
-    var option: EChartsOption
+    var option = reactive<EChartsOption>({})
     option = {
-      title: {
-        text: '不同类别的订单数量',
-        left: 'center'
-      },
       xAxis: {
         type: 'category',
-        axisLabel: {
-          interval: 0
-        },
-        data: xAxisData
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
       },
-      yAxis: {
-        type: 'value'
-      },
+      yAxis: [
+        { name: '订单数', type: 'value', interval: 300, position: 'left' },
+        {
+          type: 'value',
+          position: 'right',
+          name: '销售额',
+          axisLabel: {
+            formatter: '{value} %'
+          }
+        }
+      ],
       series: [
         {
-          data: [120, 200, 150, 80, 70, 110, 130, 110, 120],
-          type: 'bar'
+          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          type: 'line'
+        },
+        {
+          data: [100, 200, 300, 400, 500, 600, 700],
+          type: 'line',
+          yAxisIndex: 1
         }
       ]
     }
@@ -83,6 +79,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang='less' scoped>
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="main" :style="{ height: height, width: width }" />
+  <div id="pie-chart" :style="{ height: height, width: width }" />
 </template>
 
 <script lang='ts'>
@@ -31,7 +31,7 @@ export default defineComponent({
 
     var myChart: echarts.ECharts
     onMounted(() => {
-      var chartDom = document.getElementById('main')!
+      var chartDom = document.getElementById('pie-chart')!
       myChart = echarts.init(chartDom, 'macarons')
       option && myChart.setOption(option)
     })
@@ -60,6 +60,10 @@ export default defineComponent({
 
     var option = reactive<EChartsOption>({})
     option = {
+      // title: {
+      //   text: '不同类别的商品数量',
+      //   left: 'center'
+      // },
       tooltip: {
         trigger: 'item',
         formatter: '{a} <br/>{b} : {c} ({d}%)'
@@ -71,7 +75,7 @@ export default defineComponent({
       },
       series: [
         {
-          name: 'WEEKLY WRITE ARTICLES',
+          name: '不同类别的商品数量',
           type: 'pie',
           roseType: 'radius',
           radius: [15, 95],
@@ -82,6 +86,11 @@ export default defineComponent({
         }
       ]
     }
+
+    // 自适应
+    window.addEventListener('resize', () => {
+      myChart.resize()
+    })
 
     onBeforeUnmount(() => {
       myChart?.dispose()

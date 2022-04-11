@@ -3,9 +3,33 @@
     <panel-group></panel-group>
 
     <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8">
+      <el-col :xs="24" :sm="24" :lg="12">
         <div class="chart-wrapper">
           <pie-chart v-if="categoryList.length" :list-data="categoryList" />
+        </div>
+      </el-col>
+      <el-col :xs="24" :sm="24" :lg="12">
+        <div class="chart-wrapper">
+          <bar-chart v-if="categoryList.length" :list-data="categoryList" />
+        </div>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="32">
+      <el-col :xs="24" :sm="24" :lg="24">
+        <div class="chart-wrapper">
+          <div class="date-picker">
+            <el-date-picker
+              v-model="value2"
+              type="daterange"
+              unlink-panels
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :shortcuts="shortcuts"
+            />
+          </div>
+          <line-chart v-if="categoryList.length" />
         </div>
       </el-col>
     </el-row>
@@ -13,18 +37,19 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, onMounted, reactive } from 'vue'
+import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import PanelGroup from './cpns/PanelGroup.vue'
 import BarChart from '@/basic-ui/Chart/BarChart.vue'
 import PieChart from '@/basic-ui/Chart/PieChart.vue'
+import LineChart from '@/basic-ui/Chart/LineChart.vue'
 
 import { usePublicStore } from '@/store'
 import { useGoodStore } from '@/store/good/good'
 
 export default defineComponent({
-  components: { PanelGroup, BarChart, PieChart },
+  components: { PanelGroup, BarChart, PieChart, LineChart },
   setup() {
     const publicStore = usePublicStore()
     const goodStore = useGoodStore()
@@ -43,12 +68,34 @@ export default defineComponent({
 
     const { categoryList, categoryCount } = storeToRefs(goodStore)
     if (categoryCount.value === 0) getPageData()
-    // onMounted(() => {
-    //   console.log(categoryList.value)
-    // })
+
+    const value2 = ref('')
+
+    const shortcuts = [
+      {
+        text: '最近一周',
+        value: () => {
+          const end = new Date()
+          const start = new Date()
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+          return [start, end]
+        }
+      },
+      {
+        text: '最近一月',
+        value: () => {
+          const end = new Date()
+          const start = new Date()
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+          return [start, end]
+        }
+      }
+    ]
 
     return {
-      categoryList
+      categoryList,
+      value2,
+      shortcuts
     }
   }
 })
@@ -64,6 +111,12 @@ export default defineComponent({
     background: #fff;
     padding: 16px 16px 0;
     margin-bottom: 32px;
+
+    .date-picker {
+      padding: 20px;
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 }
 
