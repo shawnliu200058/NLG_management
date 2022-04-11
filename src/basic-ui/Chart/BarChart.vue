@@ -10,7 +10,7 @@ require('echarts/theme/macarons') // echarts theme
 export default defineComponent({
   props: {
     listData: {
-      type: Array,
+      type: Object,
       required: true
     },
     className: {
@@ -37,12 +37,30 @@ export default defineComponent({
     })
 
     const xAxisData = reactive<any>([])
+    const seriesData = reactive<any>([])
     const initData = () => {
       // console.log(props.listData)
-      props.listData.forEach((item: any, index: number) => {
-        xAxisData.push(item?.name)
+      const { categoryList, orderList } = props.listData
+      const categoryCount = categoryList.length
+      for (let i = 0; i < categoryCount; i++) seriesData[i] = 0
+      // console.log(seriesData)
+
+      categoryList.forEach((categoryItem: any, index: number) => {
+        xAxisData.push(categoryItem?.name)
+
+        orderList.forEach((orderItem: any) => {
+          // console.log(JSON.parse(item?.good_info))
+          const orderGoods = JSON.parse(orderItem?.good_info)
+          orderGoods.forEach((goodItem: any) => {
+            // console.log(item)
+            if (goodItem?.category_id === categoryItem?.id) seriesData[index]++
+          })
+        })
       })
-      console.log(xAxisData)
+
+      console.log(seriesData)
+
+      // console.log(xAxisData)
     }
     initData()
 
@@ -60,11 +78,12 @@ export default defineComponent({
         data: xAxisData
       },
       yAxis: {
-        type: 'value'
+        type: 'value',
+        minInterval: 1
       },
       series: [
         {
-          data: [120, 200, 150, 80, 70, 110, 130, 110, 120],
+          data: seriesData,
           type: 'bar'
         }
       ]

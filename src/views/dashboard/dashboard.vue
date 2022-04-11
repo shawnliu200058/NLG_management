@@ -10,7 +10,10 @@
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12">
         <div class="chart-wrapper">
-          <bar-chart v-if="categoryList.length" :list-data="categoryList" />
+          <bar-chart
+            v-if="categoryList.length && orderList.length"
+            :list-data="{ categoryList, orderList }"
+          />
         </div>
       </el-col>
     </el-row>
@@ -27,6 +30,7 @@
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               :shortcuts="shortcuts"
+              value-format="x"
             />
           </div>
           <line-chart v-if="categoryList.length" />
@@ -47,15 +51,18 @@ import LineChart from '@/basic-ui/Chart/LineChart.vue'
 
 import { usePublicStore } from '@/store'
 import { useGoodStore } from '@/store/good/good'
+import { useOrderStore } from '@/store/order/order'
 
 export default defineComponent({
   components: { PanelGroup, BarChart, PieChart, LineChart },
   setup() {
     const publicStore = usePublicStore()
     const goodStore = useGoodStore()
-    const pageName = 'category'
+    const orderStore = useOrderStore()
+    // const pageName = 'category'
 
-    const getPageData = (queryInfo: any = {}) => {
+    // getPageData('category')
+    const getPageData = (pageName: string, queryInfo: any = {}) => {
       publicStore.getPageListAction({
         pageName,
         queryInfo: {
@@ -67,7 +74,9 @@ export default defineComponent({
     }
 
     const { categoryList, categoryCount } = storeToRefs(goodStore)
-    if (categoryCount.value === 0) getPageData()
+    if (categoryCount.value === 0) getPageData('category')
+    const { orderList, orderCount } = storeToRefs(orderStore)
+    if (orderCount.value === 0) getPageData('order')
 
     const value2 = ref('')
 
@@ -94,6 +103,7 @@ export default defineComponent({
 
     return {
       categoryList,
+      orderList,
       value2,
       shortcuts
     }

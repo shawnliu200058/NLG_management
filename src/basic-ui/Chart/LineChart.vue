@@ -49,7 +49,7 @@ export default defineComponent({
           position: 'right',
           name: '销售额',
           axisLabel: {
-            formatter: '{value} %'
+            formatter: '￥{value}'
           }
         }
       ],
