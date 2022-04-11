@@ -1,6 +1,9 @@
 <template>
   <div class="dashboard-editor-container">
-    <panel-group></panel-group>
+    <panel-group
+      v-if="orderList.length"
+      v-bind="{ userCount, goodCount, orderCount, orderList }"
+    ></panel-group>
 
     <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="12">
@@ -52,6 +55,7 @@ import LineChart from '@/basic-ui/Chart/LineChart.vue'
 import { usePublicStore } from '@/store'
 import { useGoodStore } from '@/store/good/good'
 import { useOrderStore } from '@/store/order/order'
+import { useUserStore } from '@/store/user/user'
 
 export default defineComponent({
   components: { PanelGroup, BarChart, PieChart, LineChart },
@@ -59,6 +63,7 @@ export default defineComponent({
     const publicStore = usePublicStore()
     const goodStore = useGoodStore()
     const orderStore = useOrderStore()
+    const userStore = useUserStore()
     // const pageName = 'category'
 
     // getPageData('category')
@@ -73,10 +78,21 @@ export default defineComponent({
       })
     }
 
-    const { categoryList, categoryCount } = storeToRefs(goodStore)
+    const { categoryList, categoryCount, goodCount } = storeToRefs(goodStore)
     if (categoryCount.value === 0) getPageData('category')
     const { orderList, orderCount } = storeToRefs(orderStore)
-    if (orderCount.value === 0) getPageData('order')
+    if (orderCount.value === 0) {
+      getPageData('order')
+      // orderList.value.forEach((item: any) => {
+      //   console.log(item)
+      // })
+    }
+    const { userCount } = storeToRefs(userStore)
+    if (userCount.value === 0) getPageData('user')
+    if (goodCount.value === 0) getPageData('good')
+
+    const panelConfig = reactive({ userCount: userCount.value })
+    // console.log(panelConfig)
 
     const value2 = ref('')
 
@@ -102,6 +118,9 @@ export default defineComponent({
     ]
 
     return {
+      userCount,
+      goodCount,
+      orderCount,
       categoryList,
       orderList,
       value2,

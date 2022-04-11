@@ -12,7 +12,7 @@
             <div class="card-panel-text">用户总数</div>
             <count-up
               :startVal="0"
-              :endVal="10"
+              :endVal="userCount"
               :duration="3"
               class="card-panel-num"
             ></count-up>
@@ -31,7 +31,7 @@
             <div class="card-panel-text">商品数量</div>
             <count-up
               :startVal="0"
-              :endVal="10"
+              :endVal="goodCount"
               :duration="3"
               class="card-panel-num"
             ></count-up>
@@ -50,7 +50,7 @@
             <div class="card-panel-text">订单总数</div>
             <count-up
               :startVal="0"
-              :endVal="10"
+              :endVal="orderCount"
               :duration="3"
               class="card-panel-num"
             ></count-up>
@@ -69,7 +69,7 @@
             <div class="card-panel-text">销售总额</div>
             <count-up
               :startVal="0"
-              :endVal="10"
+              :endVal="saleCount"
               :duration="3"
               class="card-panel-num"
             ></count-up>
@@ -81,13 +81,40 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import CountUp from 'vue-countup-v3'
 
 export default defineComponent({
   components: { CountUp },
-  setup() {
-    return {}
+  props: {
+    userCount: {
+      type: Number,
+      default: 0
+    },
+    goodCount: {
+      type: Number,
+      default: 0
+    },
+    orderCount: {
+      type: Number,
+      default: 0
+    },
+    orderList: {
+      type: Array,
+      default: () => []
+    }
+  },
+  setup(props) {
+    // console.log(props.orderList)
+    const saleCount = ref(0)
+    props.orderList.forEach((item: any) => {
+      saleCount.value += item?.total_price
+    })
+    // console.log(saleCount.value)
+
+    return {
+      saleCount
+    }
   }
 })
 </script>

@@ -58,8 +58,7 @@ export default defineComponent({
         })
       })
 
-      console.log(seriesData)
-
+      // console.log(seriesData)
       // console.log(xAxisData)
     }
     initData()
