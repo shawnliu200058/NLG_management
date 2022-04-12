@@ -19,7 +19,8 @@ import {
   UploadFilled,
   Paperclip,
   Tickets,
-  Coin
+  Coin,
+  Document
 } from '@element-plus/icons-vue'
 
 const icons = [
@@ -41,7 +42,8 @@ const icons = [
   UploadFilled,
   Paperclip,
   Tickets,
-  Coin
+  Coin,
+  Document
 ]
 
 export default function (app: App): void {

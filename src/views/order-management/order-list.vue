@@ -9,7 +9,13 @@
         :total-count="orderCount"
       >
         <template #headerHandler>
-          <!-- <el-button type="primary" @click="handleNewData">新建分类</el-button> -->
+          <el-button
+            type="primary"
+            :loading="downloadLoading"
+            @click="handleDownload"
+            ><el-icon style="padding-right: 10px"> <document /> </el-icon>导出
+            Excel</el-button
+          >
         </template>
         <template #total_price="scope">
           ￥{{ scope.row.total_price.toFixed(2) }}
@@ -44,14 +50,6 @@
         </template>
       </basic-table>
     </el-card>
-
-    <!-- <page-modal
-      :modal-config="categoryModalConfig"
-      :default-info="defaultInfo"
-      page-name="category"
-      title="编辑分类"
-      ref="pageModalRef"
-    ></page-modal> -->
   </div>
 </template>
 
@@ -68,7 +66,10 @@ import { useOrderStore } from '@/store/order/order'
 import { orderPropList } from './config/content.config'
 
 import router from '@/router/index'
-// import { categoryModalConfig } from './config/modal.config'
+
+// import { formatJson } from '@/utils'
+import { ExcelService } from '@/utils/excel'
+import { formatUtcString } from '@/utils/date-format'
 
 import {
   handleNewData,
@@ -120,16 +121,51 @@ export default defineComponent({
       msgConfirm('订单信息', delAction, item)
     }
 
+    let downloadLoading = false
+    const handleDownload = () => {
+      downloadLoading = true
+      // const tHeader = [
+      //   'id',
+      //   'orderID',
+      //   'userName',
+      //   'real_name',
+      //   'total_price',
+      //   'createdAt'
+      // ]
+      let dataList: Array<any> = []
+      dataList.push([
+        '编号',
+        '订单编号',
+        '用户账户',
+        '收货人姓名',
+        '订单金额',
+        '创建时间'
+      ])
+      orderList.value.forEach((item) => {
+        dataList.push([
+          item['id'],
+          item['orderID'],
+          item['userName'],
+          item['real_name'],
+          item['total_price'],
+          formatUtcString(item['createdAt'])
+        ])
+      })
+      // console.log(dataList)
+      new ExcelService().exportAsExcelFile(dataList, '订单表')
+      downloadLoading = false
+    }
+
     return {
       orderCount,
       orderList,
       orderPropList,
       pageInfo,
-      handleNewData,
       goOrderDetail,
       handleDelClick,
-      defaultInfo,
-      pageModalRef
+      handleDownload,
+      downloadLoading,
+      defaultInfo
     }
   }
 })
