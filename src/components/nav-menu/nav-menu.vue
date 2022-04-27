@@ -29,7 +29,7 @@
         <el-menu-item index="/content-management/announcement-management"
           >通告管理</el-menu-item
         >
-        <el-menu-item index="2-2">轮播图管理</el-menu-item>
+        <!-- <el-menu-item index="2-2">轮播图管理</el-menu-item> -->
       </el-sub-menu>
 
       <el-sub-menu index="/good-management">
@@ -66,13 +66,13 @@
         >
       </el-sub-menu>
 
-      <el-sub-menu index="6">
+      <!-- <el-sub-menu index="6">
         <template #title>
           <el-icon><setting /></el-icon>
           <span>系统管理</span>
         </template>
         <el-menu-item index="6-1">修改密码</el-menu-item>
-      </el-sub-menu>
+      </el-sub-menu> -->
     </el-menu>
   </div>
 </template>

@@ -8,7 +8,7 @@ export const useGoodStore = defineStore('good', {
       goodList: [],
       goodCount: 0
     }
-  },
+  }
   // getters: {
   //   categoryCount(state) {
   //     return state.categoryList.length
@@ -16,6 +16,5 @@ export const useGoodStore = defineStore('good', {
   //   goodsCount(state) {
   //     return state.goodList.length
   //   }
-  // },
-  actions: {}
+  // }
 })

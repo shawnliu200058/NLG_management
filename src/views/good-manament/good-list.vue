@@ -33,12 +33,18 @@
             circle
             @click="handleEditData(scope.row)"
           /> -->
-          <el-button
+          <el-button type="text" @click="handleGoodStatus(scope.row)">{{
+            scope.row.status ? '下架' : '上架'
+          }}</el-button>
+          <!-- <el-button
             type="danger"
             icon="Delete"
             circle
             @click="handleDelClick(scope.row)"
-          />
+          /> -->
+          <el-button type="text" @click="handleDelClick(scope.row)"
+            >删除</el-button
+          >
         </template>
       </basic-table>
     </el-card>
@@ -63,6 +69,7 @@ import PageModal from '@/components/page-modal/page-modal.vue'
 
 import { usePublicStore } from '@/store'
 import { useGoodStore } from '@/store/good/good'
+import { changeGoodStatus } from '@/service/api/good/good'
 
 import { goodPropList } from './config/content.config'
 
@@ -109,6 +116,24 @@ export default defineComponent({
       getPageData({ categoryId: id })
     }
 
+    const handleGoodStatus = (goodInfo: any) => {
+      // console.log(goodInfo.id, goodInfo.status)
+      const { status } = goodInfo
+      if (status) {
+        msgConfirm('是否下架该商品', changeStatus, goodInfo, '下架')
+      } else {
+        msgConfirm('是否上架该商品', changeStatus, goodInfo, '上架')
+      }
+    }
+
+    const changeStatus = (goodInfo: any) => {
+      // console.log(goodInfo.id, goodInfo.status)
+      const { id, status } = goodInfo
+      changeGoodStatus(id, status).then((res) => {
+        getPageData()
+      })
+    }
+
     // let list = reactive<any>([])
     // watch(
     //   goodList,
@@ -147,7 +172,7 @@ export default defineComponent({
 
     const handleDelClick = (item: any) => {
       // console.log(item)
-      msgConfirm('商品', delAction, item)
+      msgConfirm('是否删除该商品', delAction, item)
     }
 
     return {
@@ -159,6 +184,7 @@ export default defineComponent({
       handleNewData,
       handleEditData,
       handleDelClick,
+      handleGoodStatus,
       defaultInfo,
       pageModalRef
     }

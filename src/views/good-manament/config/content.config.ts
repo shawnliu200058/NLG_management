@@ -19,5 +19,5 @@ export const goodPropList = [
   { prop: 'sale', label: '销量', minWidth: '100' },
   { prop: 'stock', label: '库存', minWidth: '100' },
   { prop: 'good_address', label: '发货地址', minWidth: '100' },
-  { prop: 'operation', label: '操作' }
+  { prop: 'operation', label: '操作', minWidth: '100' }
 ]

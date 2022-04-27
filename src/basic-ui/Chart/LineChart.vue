@@ -40,14 +40,23 @@ export default defineComponent({
     option = {
       xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        data: [
+          '星期一',
+          '星期二',
+          '星期三',
+          '星期四',
+          '星期五',
+          '星期六',
+          '星期日'
+        ]
       },
       yAxis: [
-        { name: '订单数', type: 'value', interval: 300, position: 'left' },
+        { name: '订单数', type: 'value', interval: 5, position: 'left' },
         {
           type: 'value',
           position: 'right',
           name: '销售额',
+          interval: 50,
           axisLabel: {
             formatter: '￥{value}'
           }
@@ -55,11 +64,11 @@ export default defineComponent({
       ],
       series: [
         {
-          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          data: [12, 13, 10, 13, 19, 13, 12],
           type: 'line'
         },
         {
-          data: [100, 200, 300, 400, 500, 600, 700],
+          data: [50, 100, 150, 200, 250, 300, 350],
           type: 'line',
           yAxisIndex: 1
         }
