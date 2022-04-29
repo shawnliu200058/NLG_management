@@ -22,6 +22,12 @@ const GoodManagementRoute = {
   meta: { title: '商品管理' },
   children: [
     {
+      path: 'audit',
+      name: 'Audit',
+      component: () => import('@/views/good-manament/audit.vue'),
+      meta: { title: '审核管理' }
+    },
+    {
       path: 'category',
       name: 'Category',
       component: () => import('@/views/good-manament/category.vue'),

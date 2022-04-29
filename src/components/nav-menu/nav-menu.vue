@@ -37,7 +37,7 @@
           <el-icon><goods /></el-icon>
           <span>商品管理</span>
         </template>
-
+        <el-menu-item index="/good-management/audit">审核管理</el-menu-item>
         <el-menu-item index="/good-management/category">分类管理</el-menu-item>
 
         <router-link :to="{ name: 'GoodList' }">
