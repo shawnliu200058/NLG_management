@@ -22,7 +22,7 @@ export const useLoginStore = defineStore('login', {
     async accountLoginAction(payload: IAccount) {
       // console.log('执行登录操作', payload)
       const result = await accountLoginReq(payload)
-      console.log(result)
+      console.log(result, 111111)
       if (!result.data.errMsg) {
         const { id, name, token } = result.data
         // 保存 token

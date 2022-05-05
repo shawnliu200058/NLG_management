@@ -19,7 +19,6 @@
             style="width: 100px; height: 100px"
             :src="scope.row.icon_url"
             fit="cover"
-            :preview-src-list="[scope.row.icon_url]"
           ></el-image>
         </template>
         <template #createdAt="scope">
@@ -112,7 +111,7 @@ export default defineComponent({
 
     const handleDelClick = (item: any) => {
       // console.log(item)
-      msgConfirm('分类', delAction, item)
+      msgConfirm('是否删除该分类', delAction, item)
     }
 
     return {

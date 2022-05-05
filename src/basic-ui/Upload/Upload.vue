@@ -116,6 +116,7 @@ export default defineComponent({
           .then((res) => {
             // options.onSuccess(res)
             if (pageName) {
+              // console.log(pageName)
               // 上传完文件后再重新刷新页面，防止图片不能更新
               publicStore.getPageListAction({
                 pageName,

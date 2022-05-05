@@ -16,11 +16,11 @@
           v-model:page="pageInfo"
           :total-count="userCount"
         >
-          <template #headerHandler>
+          <!-- <template #headerHandler>
             <el-button type="primary" @click="handleNewData"
               >新建用户</el-button
             >
-          </template>
+          </template> -->
           <template #gender="scope">
             {{ scope.row.gender ? '女' : '男' }}
           </template>
@@ -39,13 +39,13 @@
             {{ $filters.formatTime(scope.row.uodatedAt) }}
           </template>
           <template #operation="scope">
-            <el-button
+            <!-- <el-button
               type="primary"
               icon="Edit"
               circle
               @click="handleEditData(scope.row)"
-            />
-            <el-button type="danger" icon="Delete" circle />
+            /> -->
+            <el-button type="primary" icon="Notebook" circle />
           </template>
         </basic-table>
       </el-card>
@@ -82,6 +82,7 @@ import {
   defaultInfo,
   pageModalRef
 } from '@/hooks/use-page-modal'
+import msgConfirm from '@/hooks/use-msg-confirm'
 
 export default defineComponent({
   components: {
@@ -117,6 +118,18 @@ export default defineComponent({
       getPageData(queryInfo)
     }
 
+    const delAction = (item?: any) => {
+      publicStore.delPageDataAction({
+        pageName,
+        id: item.id
+      })
+    }
+
+    const handleDelClick = (item: any) => {
+      // console.log(item)
+      msgConfirm('是否删除该用户', delAction, item)
+    }
+
     return {
       searchFormConfig,
       modalConfig,
@@ -127,6 +140,7 @@ export default defineComponent({
       handleQueryClick,
       handleNewData,
       handleEditData,
+      handleDelClick,
       defaultInfo,
       pageModalRef
     }

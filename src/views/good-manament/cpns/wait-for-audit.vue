@@ -43,7 +43,7 @@
             @click="handleDelClick(scope.row)"
           /> -->
           <el-button type="text" @click="handleDelClick(scope.row)"
-            >不通过</el-button
+            >拒绝</el-button
           >
         </template>
       </basic-table>
@@ -69,7 +69,7 @@ import PageModal from '@/components/page-modal/page-modal.vue'
 
 import { usePublicStore } from '@/store'
 import { useGoodStore } from '@/store/good/good'
-import { changeGoodStatus } from '@/service/api/good/good'
+import { changeAuditStatus } from '@/service/api/good/good'
 
 import { goodPropList } from '../config/content.config'
 
@@ -101,6 +101,7 @@ export default defineComponent({
         queryInfo: {
           offset: (pageInfo.currentPage - 1) * pageInfo.pageSize,
           limit: pageInfo.pageSize,
+          auditStatus: 0,
           // 其他查询条件
           ...queryInfo
         }
@@ -108,11 +109,11 @@ export default defineComponent({
     }
 
     const { goodList, goodCount } = storeToRefs(goodStore)
-    if (goodCount.value === 0) getPageData()
+    getPageData()
 
     // el-select的值发生变化时触发
     const selectionChange = (id: any) => {
-      console.log(id)
+      // console.log(id)
       getPageData({ categoryId: id })
     }
 
@@ -120,17 +121,18 @@ export default defineComponent({
       // console.log(goodInfo.id, goodInfo.status)
       const { status } = goodInfo
       if (status) {
-        msgConfirm('是否下架该商品', changeStatus, goodInfo, '下架')
+        msgConfirm('是否审核通过', changeStatus, goodInfo, '操作')
       } else {
-        msgConfirm('是否上架该商品', changeStatus, goodInfo, '上架')
+        msgConfirm('是否拒绝审核通过', changeStatus, goodInfo, '操作')
       }
     }
 
     const changeStatus = (goodInfo: any) => {
       // console.log(goodInfo.id, goodInfo.status)
       const { id, status } = goodInfo
-      changeGoodStatus(id, status).then((res) => {
-        getPageData()
+      changeAuditStatus(id, status).then((res) => {
+        console.log(res)
+        // getPageData()
       })
     }
 

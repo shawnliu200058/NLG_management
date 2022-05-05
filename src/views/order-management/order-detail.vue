@@ -137,18 +137,6 @@ export default defineComponent({
     }
     getPageData()
 
-    const delAction = (item?: any) => {
-      publicStore.delPageDataAction({
-        pageName,
-        id: item.id
-      })
-    }
-
-    const handleDelClick = (item: any) => {
-      // console.log(item)
-      msgConfirm('分类', delAction, item)
-    }
-
     return {
       orderCount,
       detailList,
@@ -157,8 +145,6 @@ export default defineComponent({
       receiverPropList,
       goodPropList,
       totalPrice,
-      handleNewData,
-      handleDelClick,
       pageModalRef
     }
   }

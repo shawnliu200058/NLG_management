@@ -3,9 +3,9 @@ export const propList = [
   { prop: 'nickName', label: '用户名', minWidth: '100' },
   { prop: 'gender', label: '性别', minWidth: '100' },
   { prop: 'avatarUrl', label: '头像', minWidth: '100' },
-  { prop: 'createdAt', label: '创建时间', minWidth: '100' },
-  { prop: 'updatedAt', label: '更新时间', minWidth: '100' },
-  { prop: 'operation', label: '操作' }
+  { prop: 'birthday', label: '生日', minWidth: '100' },
+  { prop: 'email', label: '邮箱', minWidth: '100' },
+  { prop: 'createdAt', label: '注册时间' }
 ]
 
 export const contentTableConfig = {

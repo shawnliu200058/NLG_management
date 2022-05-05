@@ -26,13 +26,14 @@
           ></el-image>
         </template>
 
+        <template #createdAt="scope">
+          {{ $filters.formatTime(scope.row.createdAt) }}
+        </template>
+
         <template #operation="scope">
-          <!-- <el-button
-            type="primary"
-            icon="Edit"
-            circle
-            @click="handleEditData(scope.row)"
-          /> -->
+          <el-button type="text" @click="goGoodDetail(scope.row.id)"
+            >详情</el-button
+          >
           <el-button type="text" @click="handleGoodStatus(scope.row)">{{
             scope.row.status ? '下架' : '上架'
           }}</el-button>
@@ -48,14 +49,6 @@
         </template>
       </basic-table>
     </el-card>
-
-    <!-- <page-modal
-      :modal-config="categoryModalConfig"
-      :default-info="defaultInfo"
-      page-name="category"
-      title="编辑分类"
-      ref="pageModalRef"
-    ></page-modal> -->
   </div>
 </template>
 
@@ -72,6 +65,8 @@ import { useGoodStore } from '@/store/good/good'
 import { changeGoodStatus } from '@/service/api/good/good'
 
 import { goodPropList } from './config/content.config'
+
+import router from '@/router/index'
 
 import {
   handleNewData,
@@ -94,6 +89,7 @@ export default defineComponent({
     const pageName = 'good'
     const pageInfo = reactive({ currentPage: 1, pageSize: 10 })
     watch(pageInfo, () => getPageData())
+    // console.log(pageInfo)
 
     const getPageData = (queryInfo: any = {}) => {
       publicStore.getPageListAction({
@@ -108,11 +104,11 @@ export default defineComponent({
     }
 
     const { goodList, goodCount } = storeToRefs(goodStore)
-    if (goodCount.value === 0) getPageData()
+    getPageData()
 
     // el-select的值发生变化时触发
     const selectionChange = (id: any) => {
-      console.log(id)
+      // console.log(id)
       getPageData({ categoryId: id })
     }
 
@@ -175,6 +171,14 @@ export default defineComponent({
       msgConfirm('是否删除该商品', delAction, item)
     }
 
+    const goGoodDetail = (goodId: number) => {
+      const { currentPage, pageSize } = pageInfo
+      router.push({
+        path: 'good-detail/' + goodId,
+        query: { currentPage, pageSize }
+      })
+    }
+
     return {
       goodList,
       goodPropList,
@@ -185,8 +189,7 @@ export default defineComponent({
       handleEditData,
       handleDelClick,
       handleGoodStatus,
-      defaultInfo,
-      pageModalRef
+      goGoodDetail
     }
   }
 })

@@ -8,3 +8,11 @@ export function changeGoodStatus(goodId: number, status: number) {
     method: 'PATCH'
   })
 }
+
+export function changeAuditStatus(goodId: number, status: number) {
+  return hyRequest.patch<IDataType>({
+    url: `/good/audit/${goodId}`,
+    data: { status },
+    method: 'PATCH'
+  })
+}

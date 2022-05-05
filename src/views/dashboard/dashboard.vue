@@ -24,7 +24,7 @@
     <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="24">
         <div class="chart-wrapper">
-          <div class="date-picker">
+          <!-- <div class="date-picker">
             <el-date-picker
               v-model="value2"
               type="daterange"
@@ -35,7 +35,7 @@
               :shortcuts="shortcuts"
               value-format="x"
             />
-          </div>
+          </div> -->
           <line-chart v-if="categoryList.length" />
         </div>
       </el-col>

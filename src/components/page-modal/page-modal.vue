@@ -81,7 +81,7 @@ export default defineComponent({
       // 若 defaultInfo 存在字段，则说明为编辑操作
       if (Object.keys(props.defaultInfo).length) {
         publicStore.editPageDataAction(editPayload)
-        formRef.value?.uploadAction(formData.value.id)
+        formRef.value?.uploadAction(formData.value.id, props.pageName as string)
       } else {
         // 新建
         const createPayload = {

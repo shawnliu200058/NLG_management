@@ -14,10 +14,34 @@ export const goodPropList = [
   { prop: 'displayPicUrl', label: '商品图标', minWidth: '100' },
   { prop: 'detail', label: '商品标题', minWidth: '100' },
   { prop: 'price', label: '商品单价', minWidth: '100' },
+  // { prop: 'unit', label: '单位', minWidth: '60' },
+  // { prop: 'specification', label: '规格', minWidth: '80' },
+  // { prop: 'sale', label: '销量', minWidth: '100' },
+  // { prop: 'stock', label: '库存', minWidth: '100' },
+  // { prop: 'good_address', label: '发货地址', minWidth: '100' },
+  { prop: 'publisher', label: '发布账号', minWidth: '100' },
+  { prop: 'createdAt', label: '发布时间', minWidth: '100' },
+  { prop: 'operation', label: '操作', minWidth: '100' }
+]
+
+export const basicPropList = [
+  { prop: 'id', label: '编号', minWidth: '60' },
+  { prop: 'name', label: '商品名称', minWidth: '100' },
+  { prop: 'displayPicUrl', label: '商品图标', minWidth: '100' },
+  { prop: 'detail', label: '商品标题', minWidth: '100' },
+  { prop: 'price', label: '商品单价', minWidth: '100' },
+  { prop: 'publisher', label: '发布账号', minWidth: '100' },
+  { prop: 'createdAt', label: '发布时间', minWidth: '100' }
+]
+
+export const otherPropList = [
   { prop: 'unit', label: '单位', minWidth: '60' },
   { prop: 'specification', label: '规格', minWidth: '80' },
   { prop: 'sale', label: '销量', minWidth: '100' },
   { prop: 'stock', label: '库存', minWidth: '100' },
-  { prop: 'good_address', label: '发货地址', minWidth: '100' },
-  { prop: 'operation', label: '操作', minWidth: '100' }
+  { prop: 'good_address', label: '发货地址', minWidth: '100' }
+]
+
+export const picPropList = [
+  { prop: 'url', label: '商品详情图', minWidth: '100' }
 ]
