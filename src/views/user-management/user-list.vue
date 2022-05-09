@@ -29,7 +29,13 @@
               style="width: 100px; height: 100px"
               :src="scope.row.avatarUrl"
               fit="cover"
-              :preview-src-list="[scope.row.avatarUrl]"
+            >
+              <template #error>
+                <div class="image-slot">
+                  <img
+                    src="@/assets/img/mmexport02d1443711db4c6508cc18aca6ebf25f.png"
+                  />
+                </div> </template
             ></el-image>
           </template>
           <template #createdAt="scope">
@@ -94,6 +100,8 @@ export default defineComponent({
     const publicStore = usePublicStore()
     const userStore = useUserStore()
     const pageName = 'user'
+    const defaultAvatar =
+      '@/assets/img/mmexport02d1443711db4c6508cc18aca6ebf25f.png'
 
     const pageInfo = reactive({ currentPage: 1, pageSize: 10 })
     watch(pageInfo, () => getPageData())
@@ -142,7 +150,8 @@ export default defineComponent({
       handleEditData,
       handleDelClick,
       defaultInfo,
-      pageModalRef
+      pageModalRef,
+      defaultAvatar
     }
   }
 })

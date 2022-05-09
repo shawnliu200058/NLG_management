@@ -39,7 +39,7 @@ export default defineComponent({
     const xAxisData = reactive<any>([])
     const seriesData = reactive<any>([])
     const initData = () => {
-      // console.log(props.listData)
+      console.log(props.listData)
       const { categoryList, orderList } = props.listData
       const categoryCount = categoryList.length
       for (let i = 0; i < categoryCount; i++) seriesData[i] = 0
@@ -51,10 +51,16 @@ export default defineComponent({
         orderList.forEach((orderItem: any) => {
           // console.log(JSON.parse(item?.good_info))
           const orderGoods = JSON.parse(orderItem?.good_info)
-          orderGoods.forEach((goodItem: any) => {
-            // console.log(item)
-            if (goodItem?.category_id === categoryItem?.id) seriesData[index]++
-          })
+          // orderGoods.forEach((goodItem: any) => {
+          //   // console.log(item)
+          //   if (goodItem?.category_id === categoryItem?.id) seriesData[index]++
+          // })
+          for (const goodItem of orderGoods) {
+            if (goodItem?.category_id === categoryItem?.id) {
+              seriesData[index]++
+              break
+            }
+          }
         })
       })
 

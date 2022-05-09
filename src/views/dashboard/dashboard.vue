@@ -20,26 +20,6 @@
         </div>
       </el-col>
     </el-row>
-
-    <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="24">
-        <div class="chart-wrapper">
-          <!-- <div class="date-picker">
-            <el-date-picker
-              v-model="value2"
-              type="daterange"
-              unlink-panels
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              :shortcuts="shortcuts"
-              value-format="x"
-            />
-          </div> -->
-          <line-chart v-if="categoryList.length" />
-        </div>
-      </el-col>
-    </el-row>
   </div>
 </template>
 

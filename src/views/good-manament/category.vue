@@ -57,6 +57,7 @@
 <script lang='ts'>
 import { defineComponent, watch, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
+import { ElMessage } from 'element-plus'
 
 import BasicTable from '@/basic-ui/Table'
 import PageModal from '@/components/page-modal/page-modal.vue'
@@ -103,10 +104,17 @@ export default defineComponent({
     if (categoryCount.value === 0) getPageData()
 
     const delAction = (item?: any) => {
-      publicStore.delPageDataAction({
-        pageName,
-        id: item.id
-      })
+      if (item.goods[0].id) {
+        ElMessage({
+          type: 'warning',
+          message: '该分类下商品不为空，无法删除'
+        })
+      } else {
+        publicStore.delPageDataAction({
+          pageName,
+          id: item.id
+        })
+      }
     }
 
     const handleDelClick = (item: any) => {
