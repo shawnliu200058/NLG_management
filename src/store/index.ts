@@ -30,11 +30,19 @@ export const usePublicStore = defineStore('public', {
       const { list, totalCount } = result.data[`${pageName}List`]
 
       if (pageName === 'user') {
-        useUserStore().userList = list
-        useUserStore().userCount = totalCount
+        // useUserStore().userList = list
+        // useUserStore().userCount = totalCount
+        useUserStore().$patch({
+          userList: list,
+          userCount: totalCount
+        })
       } else if (pageName === 'category') {
-        useGoodStore().categoryList = list
-        useGoodStore().categoryCount = totalCount
+        useGoodStore().$patch({
+          categoryList: list,
+          categoryCount: totalCount
+        })
+        // useGoodStore().categoryList = list
+        // useGoodStore().categoryCount = totalCount
       } else if (pageName === 'good') {
         useGoodStore().goodList = list
         useGoodStore().goodCount = totalCount

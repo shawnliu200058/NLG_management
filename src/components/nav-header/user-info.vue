@@ -29,6 +29,7 @@ import { useLoginStore } from '@/store/login/login'
 
 export default defineComponent({
   setup() {
+    // storeToRefs保证解构后保持响应性
     const { adminInfo } = storeToRefs(useLoginStore())
     // console.log(adminInfo.value)
     const name = computed(() => adminInfo.value.name)

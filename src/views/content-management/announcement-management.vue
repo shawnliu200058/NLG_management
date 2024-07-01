@@ -61,7 +61,7 @@ export default defineComponent({
       // console.log(value)
       var re = new RegExp('<[^<>]+>', 'g')
       var text = value.replace(re, '')
-      // console.log(text)
+      console.log(text)
       if (text.length < 10) {
         callback(new Error('内容长度不能少于 10 个字符'))
       } else {

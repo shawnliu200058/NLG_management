@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <div class="header">
       <slot name="header">
         <div class="title">{{ title }}</div>
@@ -32,6 +32,7 @@
       ></el-table-column>
 
       <template v-for="propItem in propList" :key="propItem.prop">
+        <!-- 相当于 <el-table-column prop="id" label="编号" minWidth="60" align="center"> -->
         <el-table-column v-bind="propItem" align="center">
           <template #default="scope">
             <!-- :name 的作用是为不同的插槽配置名字，即具名插槽

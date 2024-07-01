@@ -18,7 +18,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, onMounted, ref, watch } from 'vue'
+import { defineComponent, onMounted, ref, watch, toRaw } from 'vue'
 import { useRoute, RouteLocationMatched } from 'vue-router'
 
 // import pathToRegexp from 'path-to-regexp' 会报错
@@ -36,6 +36,8 @@ export default defineComponent({
       let matched: any = route.matched.filter(
         (item) => item.meta && item.meta.title
       )
+      // console.log(matched)
+
       const first = matched[0]
       // console.log(isMain(first))
 
@@ -53,6 +55,7 @@ export default defineComponent({
     }
 
     const isDashBoard = (route: RouteLocationMatched) => {
+      // console.log(route)
       const name = (route && route.name) as string
       if (!name) {
         return false
@@ -61,6 +64,7 @@ export default defineComponent({
     }
 
     watch(route, () => {
+      console.log(toRaw(route))
       getBreadCrumb()
     })
 

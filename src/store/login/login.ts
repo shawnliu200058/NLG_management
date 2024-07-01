@@ -20,9 +20,9 @@ export const useLoginStore = defineStore('login', {
   },
   actions: {
     async accountLoginAction(payload: IAccount) {
-      // console.log('执行登录操作', payload)
+      console.log('执行登录操作', payload)
       const result = await accountLoginReq(payload)
-      console.log(result, 111111)
+      console.log(result)
       if (!result.data.errMsg) {
         const { id, name, token } = result.data
         // 保存 token
@@ -42,6 +42,7 @@ export const useLoginStore = defineStore('login', {
     loadLocalData() {
       const token = localCache.getToken()
       const adminInfo = localCache.getCache('adminInfo')
+      // 使用 $patch 可以在一次调用中更新多个状态属性，避免多次更新带来的性能消耗
       this.$patch((state: ILoginState) => {
         state.token = token ?? ''
         state.adminInfo = adminInfo
